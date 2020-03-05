@@ -116,6 +116,13 @@
     </LinearLayout>
 
 
+
+    <Button
+        android:id="@+id/btnPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:text="Password" />
     <Button
         android:id="@+id/draw_save"
         android:layout_width="match_parent"

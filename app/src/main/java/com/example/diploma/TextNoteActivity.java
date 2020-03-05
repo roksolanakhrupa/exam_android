@@ -178,16 +178,21 @@ public class TextNoteActivity extends AppCompatActivity {
                             btnSet.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    password = ((EditText) findViewById(R.id.password_add_et)).getText().toString();
-                                    Toast.makeText(getApplicationContext(), "Password added", Toast.LENGTH_SHORT).show();
+                                    password = ((EditText) mView.findViewById(R.id.password_add_et)).getText().toString();
+                                    if (password.equals(""))
+                                        Toast.makeText(getApplicationContext(), "empty password", Toast.LENGTH_SHORT).show();
+                                    else
+                                        Toast.makeText(getApplicationContext(), "Password added", Toast.LENGTH_SHORT).show();
                                     dialog.cancel();
                                 }
                             });
-                        } else
+                        } else {
                             Toast.makeText(getApplicationContext(), "Password already added", Toast.LENGTH_SHORT).show();
+                            dialog.cancel();
+                        }
 
 
-                        Button btnCancel=findViewById(R.id.password_add_cancel);
+                        Button btnCancel = mView.findViewById(R.id.password_add_cancel);
                         btnCancel.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
@@ -204,25 +209,29 @@ public class TextNoteActivity extends AppCompatActivity {
                         final AlertDialog dialog = mBuilder.create();
                         dialog.show();
 
-                        Button btnYes = mView.findViewById(R.id.password_delete_yes);
-                        btnYes.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                password = "";
-                                Toast.makeText(getApplicationContext(), "Password deleted", Toast.LENGTH_SHORT).show();
-                                dialog.cancel();
-                            }
-                        });
+                        if (!password.equals("")) {
+                            Button btnYes = mView.findViewById(R.id.password_delete_yes);
+                            btnYes.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    password = "";
+                                    Toast.makeText(getApplicationContext(), "Password deleted", Toast.LENGTH_SHORT).show();
+                                    dialog.cancel();
+                                }
+                            });
 
-                        Button btnNo = mView.findViewById(R.id.password_delete_no);
-                        btnNo.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                Toast.makeText(getApplicationContext(), "Password deleted - error", Toast.LENGTH_SHORT).show();
-                                dialog.cancel();
-                            }
-                        });
-
+                            Button btnNo = mView.findViewById(R.id.password_delete_no);
+                            btnNo.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    Toast.makeText(getApplicationContext(), "Password deleted - error", Toast.LENGTH_SHORT).show();
+                                    dialog.cancel();
+                                }
+                            });
+                        } else {
+                            Toast.makeText(getApplicationContext(), "No password", Toast.LENGTH_SHORT).show();
+                            dialog.cancel();
+                        }
                         return true;
                     }
                     case R.id.action_passwordChange: {
@@ -232,32 +241,42 @@ public class TextNoteActivity extends AppCompatActivity {
                         final AlertDialog dialog = mBuilder.create();
                         dialog.show();
 
-                        Button btnChange=findViewById(R.id.password_change_set);
-                        btnChange.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                String oldPass=((EditText)findViewById(R.id.password_change_oldpassword)).getText().toString();
-                                if(oldPass.equals(password))
-                                {
-                                    String newPass=((EditText)findViewById(R.id.password_change_newpassword)).getText().toString();
-                                    password=newPass;
-                                    Toast.makeText(getApplicationContext(), "Password changed", Toast.LENGTH_SHORT).show();
+                        if (!password.equals("")) {
+                            Button btnChange = mView.findViewById(R.id.password_change_set);
+                            btnChange.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    String oldPass = ((EditText) mView.findViewById(R.id.password_change_oldpassword)).getText().toString();
+                                    if (!password.equals("")) {
+                                        if (oldPass.equals(password)) {
+                                            String newPass = ((EditText) mView.findViewById(R.id.password_change_newpassword)).getText().toString();
+                                            password = newPass;
+                                            Toast.makeText(getApplicationContext(), "Password changed", Toast.LENGTH_SHORT).show();
+                                            dialog.cancel();
+                                        } else {
+                                            Toast.makeText(getApplicationContext(), "Incorrect old password", Toast.LENGTH_SHORT).show();
+
+                                        }
+                                    } else {
+                                        Toast.makeText(getApplicationContext(), "No previous password", Toast.LENGTH_SHORT).show();
+                                        dialog.cancel();
+                                    }
+
+
+                                }
+                            });
+
+                            Button btnCancel = mView.findViewById(R.id.password_change_cancel);
+                            btnCancel.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
                                     dialog.cancel();
                                 }
-                                else
-                                    Toast.makeText(getApplicationContext(), "Incorrect old password", Toast.LENGTH_SHORT).show();
-
-
-                            }
-                        });
-
-                        Button btnCancel=findViewById(R.id.password_change_cancel);
-                        btnCancel.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                dialog.cancel();
-                            }
-                        });
+                            });
+                        } else {
+                            Toast.makeText(getApplicationContext(), "No password", Toast.LENGTH_SHORT).show();
+                            dialog.cancel();
+                        }
 
                         return true;
                     }

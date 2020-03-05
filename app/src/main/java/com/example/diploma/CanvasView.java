@@ -104,6 +104,12 @@ public class CanvasView extends View {
         mCanvas = new Canvas(copy);
     }
 
+    public void clearBitmap()
+    {
+        mBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        mCanvas = new Canvas(mBitmap);
+    }
+
 
     public void setBackgroundImage(Bitmap backgroundImage) {
         this.backgroundImage = backgroundImage;
@@ -113,7 +119,8 @@ public class CanvasView extends View {
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
         // your Canvas will draw onto the defined Bitmap
-
+width=w;
+height=h;
         if (!isEditable) {
             mBitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
             mCanvas = new Canvas(mBitmap);
@@ -126,7 +133,7 @@ public class CanvasView extends View {
         super.onDraw(canvas);
         if (backgroundImage != null) {
             Rect src = new Rect(0, 0, backgroundImage.getWidth() - 1, backgroundImage.getHeight() - 1);
-Rect dest;
+            Rect dest;
             if (backgroundImage.getWidth() > backgroundImage.getHeight())
                 dest = new Rect(0, 0, mCanvas.getHeight(), mCanvas.getHeight());
             else
@@ -134,7 +141,6 @@ Rect dest;
             canvas.drawBitmap(backgroundImage, src, dest, null);
 
         }
-//        canvas.drawBitmap(backgroundImage, 0, 0, null);
         canvas.drawBitmap(mBitmap, 0, 0, null);
         for (int i = 0; i < paths.size(); i++) {
             canvas.drawPath(paths.get(i), paints.get(i));

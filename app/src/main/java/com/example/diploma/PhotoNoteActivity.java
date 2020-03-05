@@ -326,14 +326,17 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.SeekBar;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.BufferedReader;
@@ -363,6 +366,8 @@ public class PhotoNoteActivity extends AppCompatActivity {
     int position = 0;
     String path = "";
 
+    String password = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -385,6 +390,7 @@ public class PhotoNoteActivity extends AppCompatActivity {
             path = getIntent().getStringExtra("path");
             id = getIntent().getIntExtra("id", 0);
             position = getIntent().getIntExtra("position", 0);
+            password = getIntent().getStringExtra("password");
 
             et_title.setText(title);
 
@@ -410,6 +416,17 @@ public class PhotoNoteActivity extends AppCompatActivity {
 
 
         }
+
+
+        Button btnPassword = findViewById(R.id.btnPassword);
+        btnPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showPasswordMenu(v);
+            }
+        });
+
+
         SeekBar seekBar = findViewById(R.id.seekBar);
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -432,7 +449,6 @@ public class PhotoNoteActivity extends AppCompatActivity {
         final ImageButton pen_black = findViewById(R.id.pen_black);
         final ImageButton pen_white = findViewById(R.id.pen_white);
         final ImageButton pen_grey = findViewById(R.id.pen_grey);
-//        prev = pen_black;
         pen_black.setBackgroundResource(R.drawable.button_border);
 
         pen_red.setOnClickListener(new View.OnClickListener() {
@@ -495,7 +511,6 @@ public class PhotoNoteActivity extends AppCompatActivity {
                 EditText et = findViewById(R.id.photo_title);
                 String currentDate = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault()).format(new Date());
 
-//                String path = saveImage(((BitmapDrawable) imageView.getDrawable()).getBitmap(), IMAGE_TEST_DIRECTORY);
                 String path = saveImage(customCanvas.getBitmap(), IMAGE_DIRECTORY);
                 String photo_title = et.getText().toString();
                 Intent intent = getIntent();
@@ -508,6 +523,7 @@ public class PhotoNoteActivity extends AppCompatActivity {
                     intent.putExtra("position", position);
                 }
                 setResult(RESULT_OK, intent);
+                intent.putExtra("password", password);
                 finish();
             }
         });
@@ -517,6 +533,8 @@ public class PhotoNoteActivity extends AppCompatActivity {
         clear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                customCanvas.setBackgroundImage(null);
+                customCanvas.clearBitmap();
                 customCanvas.clearCanvas();
             }
         });
@@ -525,8 +543,6 @@ public class PhotoNoteActivity extends AppCompatActivity {
 
 
     public String saveImage(Bitmap myBitmap, String directory) {
-//        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-//        myBitmap.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
         File wallpaperDirectory = new File(Environment.getExternalStorageDirectory() + "/" + directory);
         if (!wallpaperDirectory.exists()) {
             wallpaperDirectory.mkdirs();
@@ -536,12 +552,6 @@ public class PhotoNoteActivity extends AppCompatActivity {
                     .getTimeInMillis() + ".png");
             f.createNewFile();
             FileOutputStream fo = new FileOutputStream(f);
-//            fo.write(bytes.toByteArray());
-//            MediaScannerConnection.scanFile(this,
-//                    new String[]{f.getPath()},
-//                    new String[]{"image/jpeg"}, null);
-//            fo.close();
-//            Bitmap bmpBase = customCanvas.getBitmap();
             myBitmap.compress(Bitmap.CompressFormat.PNG, 100, fo);
 
             fo.flush();
@@ -585,5 +595,137 @@ public class PhotoNoteActivity extends AppCompatActivity {
         }
     }
 
+
+    private void showPasswordMenu(View v) {
+        PopupMenu popupMenu = new PopupMenu(this, v);
+        popupMenu.inflate(R.menu.password_menu);
+
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.action_passwordAdd: {
+                        AlertDialog.Builder mBuilder = new AlertDialog.Builder(PhotoNoteActivity.this);
+                        final View mView = getLayoutInflater().inflate(R.layout.dialog_password_add, null);
+                        mBuilder.setView(mView);
+                        final AlertDialog dialog = mBuilder.create();
+                        dialog.show();
+
+                        if (password.equals("")) {
+                            Button btnSet = mView.findViewById(R.id.password_add_set);
+                            btnSet.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+
+                                    password = ((EditText) mView.findViewById(R.id.password_add_et)).getText().toString();
+                                    if (password.equals(""))
+                                        Toast.makeText(getApplicationContext(), "empty password", Toast.LENGTH_SHORT).show();
+                                    else
+                                        Toast.makeText(getApplicationContext(), "Password added", Toast.LENGTH_SHORT).show();
+                                    dialog.cancel();
+                                }
+                            });
+                        } else {
+                            Toast.makeText(getApplicationContext(), "Password already added", Toast.LENGTH_SHORT).show();
+                            dialog.cancel();
+                        }
+
+
+                        Button btnCancel = mView.findViewById(R.id.password_add_cancel);
+                        btnCancel.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                dialog.cancel();
+                            }
+                        });
+
+                        return true;
+                    }
+                    case R.id.action_passwordDelete: {
+                        AlertDialog.Builder mBuilder = new AlertDialog.Builder(PhotoNoteActivity.this);
+                        final View mView = getLayoutInflater().inflate(R.layout.dialog_password_delete, null);
+                        mBuilder.setView(mView);
+                        final AlertDialog dialog = mBuilder.create();
+                        dialog.show();
+
+                        if (!password.equals("")) {
+                            Button btnYes = mView.findViewById(R.id.password_delete_yes);
+                            btnYes.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    password = "";
+                                    Toast.makeText(getApplicationContext(), "Password deleted", Toast.LENGTH_SHORT).show();
+                                    dialog.cancel();
+                                }
+                            });
+
+                            Button btnNo = mView.findViewById(R.id.password_delete_no);
+                            btnNo.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    Toast.makeText(getApplicationContext(), "Password deleted - error", Toast.LENGTH_SHORT).show();
+                                    dialog.cancel();
+                                }
+                            });
+                        } else {
+                            Toast.makeText(getApplicationContext(), "No password", Toast.LENGTH_SHORT).show();
+                            dialog.cancel();
+                        }
+                        return true;
+                    }
+                    case R.id.action_passwordChange: {
+                        AlertDialog.Builder mBuilder = new AlertDialog.Builder(PhotoNoteActivity.this);
+                        final View mView = getLayoutInflater().inflate(R.layout.dialog_password_change, null);
+                        mBuilder.setView(mView);
+                        final AlertDialog dialog = mBuilder.create();
+                        dialog.show();
+
+
+                        if (!password.equals("")) {
+                            Button btnChange = mView.findViewById(R.id.password_change_set);
+                            btnChange.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    String oldPass = ((EditText) mView.findViewById(R.id.password_change_oldpassword)).getText().toString();
+                                    if (!password.equals("")) {
+                                        if (oldPass.equals(password)) {
+                                            String newPass = ((EditText) mView.findViewById(R.id.password_change_newpassword)).getText().toString();
+                                            password = newPass;
+                                            Toast.makeText(getApplicationContext(), "Password changed", Toast.LENGTH_SHORT).show();
+                                            dialog.cancel();
+                                        } else {
+                                            Toast.makeText(getApplicationContext(), "Incorrect old password", Toast.LENGTH_SHORT).show();
+
+                                        }
+                                    } else {
+                                        Toast.makeText(getApplicationContext(), "No previous password", Toast.LENGTH_SHORT).show();
+                                        dialog.cancel();
+                                    }
+
+
+                                }
+                            });
+
+                            Button btnCancel = mView.findViewById(R.id.password_change_cancel);
+                            btnCancel.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    dialog.cancel();
+                                }
+                            });
+                        } else {
+                            Toast.makeText(getApplicationContext(), "No password", Toast.LENGTH_SHORT).show();
+                            dialog.cancel();
+                        }
+
+                        return true;
+                    }
+                    default:
+                        return false;
+                }
+            }
+        });
+        popupMenu.show();
+    }
 
 }
