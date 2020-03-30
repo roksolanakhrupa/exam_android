@@ -11,7 +11,12 @@
 
     <item
         android:id="@+id/action_listnote"
-        android:orderInCategory="2"
+        android:orderInCategory="3"
         android:title="List note" />
+
+    <item
+        android:id="@+id/action_soundnote"
+        android:orderInCategory="4"
+        android:title="Sound note" />
 
 </menu>

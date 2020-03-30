@@ -55,6 +55,8 @@ public class NoteAdapter extends ArrayAdapter<Note> {
             type.setBackgroundResource(R.mipmap.ic_photonote);
         if (note.type.equals("list"))
             type.setBackgroundResource(R.mipmap.ic_listnote);
+        if (note.type.equals("sound"))
+            type.setBackgroundResource(R.mipmap.ic_soundnote);
 
 //        note.isChecked = isDone.isChecked();
 

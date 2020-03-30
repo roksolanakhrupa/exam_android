@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
 
     <application
         android:allowBackup="true"
@@ -12,8 +13,10 @@
         android:label="yourNote"
         android:roundIcon="@drawable/diploma_logo"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <activity android:name=".ListNoteActivity"></activity>
+        android:theme="@style/NoActionBar">
+        <activity android:name=".SoundNoteActivity"></activity>
+        <activity android:name=".ViewSoundNoteActivity" />
+        <activity android:name=".ListNoteActivity" />
         <activity android:name=".ViewListNoteActivity" />
         <activity android:name=".ViewPhotoNoteActivity" />
         <activity android:name=".ViewTextNoteActivity" />
@@ -30,3 +33,6 @@
     </application>
 
 </manifest>
+
+
+    <!--        android:theme="@style/AppTheme"-->

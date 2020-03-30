@@ -488,24 +488,44 @@ public class HomeActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Note noteToEdit = pinNotes.get(position);
                 Intent intent = null;
-                if (noteToEdit.type.equals("text"))
-                    intent = new Intent(view.getContext(), ViewTextNoteActivity.class);
-                if (noteToEdit.type.equals("photo"))
-                    intent = new Intent(view.getContext(), ViewPhotoNoteActivity.class);
-                if(noteToEdit.type.equals("list"))
-                    intent = new Intent(view.getContext(), ViewListNoteActivity.class);
+                switch(noteToEdit.type)
+                {
+                    case "text":
+                        intent = new Intent(view.getContext(), ViewTextNoteActivity.class);
+                        break;
+                    case "photo":
+                        intent = new Intent(view.getContext(), ViewPhotoNoteActivity.class);
+                        break;
+                    case "list":
+                        intent = new Intent(view.getContext(), ViewListNoteActivity.class);
+                        break;
+                    case "sound":
+                        intent = new Intent(view.getContext(), ViewSoundNoteActivity.class);
+                        break;
+                }
+
+
                 intent.putExtra("id", noteToEdit.id);
                 intent.putExtra("title", noteToEdit.title);
                 intent.putExtra("path", noteToEdit.path);
                 intent.putExtra("createDate", noteToEdit.changeDate);
                 intent.putExtra("password", noteToEdit.password);
                 intent.putExtra("position", position);
-                if (noteToEdit.type.equals("text"))
-                    startActivityForResult(intent, 1);
-                if (noteToEdit.type.equals("photo"))
-                    startActivityForResult(intent, 2);
-                if(noteToEdit.type.equals("list"))
-                    startActivityForResult(intent, 3);
+                switch(noteToEdit.type)
+                {
+                    case "text":
+                        startActivityForResult(intent, 1);
+                        break;
+                    case "photo":
+                        startActivityForResult(intent, 2);
+                        break;
+                    case "list":
+                        startActivityForResult(intent, 3);
+                        break;
+                    case "sound":
+                        startActivityForResult(intent, 4);
+                        break;
+                }
 
             }
         });
@@ -515,24 +535,42 @@ public class HomeActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Note noteToEdit = notes.get(position);
                 Intent intent = null;
-                if (noteToEdit.type.equals("text"))
-                    intent = new Intent(view.getContext(), ViewTextNoteActivity.class);
-                if (noteToEdit.type.equals("photo"))
-                    intent = new Intent(view.getContext(), ViewPhotoNoteActivity.class);
-                if(noteToEdit.type.equals("list"))
-                    intent = new Intent(view.getContext(), ViewListNoteActivity.class);
+                switch(noteToEdit.type)
+                {
+                    case "text":
+                        intent = new Intent(view.getContext(), ViewTextNoteActivity.class);
+                        break;
+                    case "photo":
+                        intent = new Intent(view.getContext(), ViewPhotoNoteActivity.class);
+                        break;
+                    case "list":
+                        intent = new Intent(view.getContext(), ViewListNoteActivity.class);
+                        break;
+                    case "sound":
+                        intent = new Intent(view.getContext(), ViewSoundNoteActivity.class);
+                        break;
+                }
                 intent.putExtra("id", noteToEdit.id);
                 intent.putExtra("title", noteToEdit.title);
                 intent.putExtra("path", noteToEdit.path);
                 intent.putExtra("createDate", noteToEdit.changeDate);
                 intent.putExtra("password", noteToEdit.password);
                 intent.putExtra("position", position);
-                if (noteToEdit.type.equals("text"))
-                    startActivityForResult(intent, 1);
-                if(noteToEdit.type.equals("photo"))
-                    startActivityForResult(intent, 2);
-                if(noteToEdit.type.equals("list"))
-                    startActivityForResult(intent, 3);
+                switch(noteToEdit.type)
+                {
+                    case "text":
+                        startActivityForResult(intent, 1);
+                        break;
+                    case "photo":
+                        startActivityForResult(intent, 2);
+                        break;
+                    case "list":
+                        startActivityForResult(intent, 3);
+                        break;
+                    case "sound":
+                        startActivityForResult(intent, 4);
+                        break;
+                }
 
 
             }
@@ -639,7 +677,34 @@ public class HomeActivity extends AppCompatActivity {
                 }
             }
             break;
+            case 4:
+            {
+                String title = data.getStringExtra("title");
+                String path = data.getStringExtra("path");
+                String changeDate = data.getStringExtra("changeDate");
+                String password = data.getStringExtra("password");
 
+
+                Note note = new Note();
+                note.title = title;
+                note.path = path;
+                note.changeDate = changeDate;
+                note.password=password;
+                note.type = "sound";
+                Boolean isEditable = data.getBooleanExtra("isEditable", false);
+                if (isEditable) {
+                    note.id = data.getIntExtra("id", 1);
+                    noteDAO.update(note);
+                    int position = data.getIntExtra("position", 0);
+                    noteAdapter.remove(noteAdapter.getItem(position));
+                    noteAdapter.insert(note, position);
+                } else {
+                    noteDAO.insert(note);
+                    noteAdapter.add(note);
+
+                }
+            }
+            break;
         }
 
         noteAdapter.notifyDataSetChanged();
@@ -672,6 +737,11 @@ public class HomeActivity extends AppCompatActivity {
                     case R.id.action_listnote: {
                         Intent intent = new Intent(getApplicationContext(), ListNoteActivity.class);
                         startActivityForResult(intent, 3);
+                        return true;
+                    }
+                    case R.id.action_soundnote: {
+                        Intent intent = new Intent(getApplicationContext(), SoundNoteActivity.class);
+                        startActivityForResult(intent, 4);
                         return true;
                     }
                     default:

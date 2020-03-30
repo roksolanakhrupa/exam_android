@@ -10,4 +10,13 @@
         <item name="color">@color/colorWhite</item>
     </style>
 
+
+    <style name="NoActionBar" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorYellow</item>
+        <item name="colorPrimaryDark">@color/colorGrey</item>
+        <item name="colorAccent">@color/colorPurple</item>
+        <item name="android:color">@color/colorBlack</item>
+        <item name="color">@color/colorWhite</item>
+    </style>
+
 </resources>
