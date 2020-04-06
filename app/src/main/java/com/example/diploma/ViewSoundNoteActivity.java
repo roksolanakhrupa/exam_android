@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -35,6 +36,7 @@ public class ViewSoundNoteActivity extends AppCompatActivity {
     Button play_stop;
     SeekBar play_duration;
     CountDownTimer timer;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,7 +111,7 @@ public class ViewSoundNoteActivity extends AppCompatActivity {
         String text = cntMin + ":";
         text += (cntSec < 10) ? "0" + cntSec : cntSec;
         all_time.setText(text);
-        current_time.setText("0:00");
+        current_time.setText("00:00");
 
         ImageButton btnEdit = findViewById(R.id.btnEdit);
         btnEdit.setOnClickListener(new View.OnClickListener() {
@@ -129,6 +131,34 @@ public class ViewSoundNoteActivity extends AppCompatActivity {
         });
 
         play_stop.setEnabled(false);
+
+
+        play_duration.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+                if(timer!=null) {
+                    mediaPlayer.pause();
+                    timer.cancel();
+                }
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                passedSec = seekBar.getProgress();
+                if (passedSec != 0)
+                    mediaPlayer.seekTo((passedSec + 1) * 1000);
+                else
+                    mediaPlayer.seekTo(0);
+
+                mediaPlayer.start();
+                playStart(seekBar);
+            }
+        });
     }
 
     @Override
@@ -167,35 +197,36 @@ public class ViewSoundNoteActivity extends AppCompatActivity {
 
     public void playStart(View v) {
         try {
-           if(mediaPlayer==null) {
-               mediaPlayer = new MediaPlayer();
-               mediaPlayer.setDataSource(path);
-               mediaPlayer.prepare();
-           }
+            if (mediaPlayer == null) {
+                mediaPlayer = new MediaPlayer();
+                mediaPlayer.setDataSource(path);
+                mediaPlayer.prepare();
+            }
             mediaPlayer.start();
             play_start.setEnabled(false);
             play_pause.setEnabled(true);
             play_stop.setEnabled(true);
 
-
-            int duration = mediaPlayer.getDuration() - (passedSec * 1000);
-            timer = new CountDownTimer(duration, 1000) {
+            int timerDuration = mediaPlayer.getDuration() - (passedSec*1000);
+            timer = new CountDownTimer(timerDuration, 1000) {
 
                 public void onTick(long millisUntilFinished) {
-                    passedSec++;
-                    play_duration.setProgress(play_duration.getProgress() + 1);
-                    int tmpCntMin = play_duration.getProgress() / 60;
-                    int tmpCntSec = play_duration.getProgress() % 60;
+                    if (passedSec != 0) {
+                        play_duration.setProgress(play_duration.getProgress() + 1);
+                        int tmpCntMin = play_duration.getProgress() / 60;
+                        int tmpCntSec = play_duration.getProgress() % 60;
 
-                    String text = "";
-                    text += (tmpCntMin < 10) ? "0" + tmpCntMin +":" : tmpCntMin+":";
-                    text += (tmpCntSec < 10) ? "0" + tmpCntSec : tmpCntSec;
-                    current_time.setText(text);
+                        String text = "";
+                        text += (tmpCntMin < 10) ? "0" + tmpCntMin + ":" : tmpCntMin + ":";
+                        text += (tmpCntSec < 10) ? "0" + tmpCntSec : tmpCntSec;
+                        current_time.setText(text);
+
+                    }
+                    passedSec++;
                 }
 
                 public void onFinish() {
                     passedSec = 0;
-                  //  play_duration.setProgress(play_duration.getProgress() + 1);
                     play_start.setEnabled(true);
                     play_pause.setEnabled(false);
                     play_stop.setEnabled(false);
@@ -209,6 +240,7 @@ public class ViewSoundNoteActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
     }
 
     public void playPause(View v) {

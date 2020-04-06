@@ -155,6 +155,34 @@ public class SoundNoteActivity extends AppCompatActivity {
         play_stop.setEnabled(false);
 
 
+        play_duration.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+                if (play_timer != null) {
+                    mediaPlayer.pause();
+                    play_timer.cancel();
+                }
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                passedSec = seekBar.getProgress();
+                if (passedSec != 0)
+                    mediaPlayer.seekTo((passedSec + 1) * 1000);
+                else
+                    mediaPlayer.seekTo(0);
+
+                mediaPlayer.start();
+                MyTimer();
+            }
+        });
+
+
     }
 
     private void showPasswordMenu(View v) {
@@ -404,7 +432,7 @@ public class SoundNoteActivity extends AppCompatActivity {
 
     private void MyTimer() {
         int duration = (mediaPlayer.getDuration() - (passedSec * 1000));
-        play_timer = new CountDownTimer(duration+1, 1000) {
+        play_timer = new CountDownTimer(duration, 1000) {
 
             public void onTick(long millisUntilFinished) {
                 if (passedSec != 0) {
