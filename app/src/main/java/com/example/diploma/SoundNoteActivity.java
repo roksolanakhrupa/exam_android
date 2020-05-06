@@ -69,6 +69,8 @@ public class SoundNoteActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sound_note);
 
+        play_duration = findViewById(R.id.play_duration);
+        play_all_time = findViewById(R.id.all_time);
         Bundle extras = getIntent().getExtras();
         if (extras == null) {
             Toast.makeText(getApplicationContext(), "empty", Toast.LENGTH_SHORT).show();
@@ -87,6 +89,25 @@ public class SoundNoteActivity extends AppCompatActivity {
             et_title.setText(title);
 
 
+
+
+            if(mediaPlayer==null)
+            {
+                mediaPlayer=new MediaPlayer();
+                try {
+                    mediaPlayer.setDataSource(path);
+                    mediaPlayer.prepare();
+
+                    int duration = mediaPlayer.getDuration();
+                    play_duration.setMax(duration / 1000);
+                    play_duration.setProgress(0);
+                    SetAllTime(mediaPlayer.getDuration());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
         }
 
         record_start = findViewById(R.id.recordnew_start);
@@ -104,9 +125,9 @@ public class SoundNoteActivity extends AppCompatActivity {
 
         record_time = findViewById(R.id.record_time);
         play_current_time = findViewById(R.id.current_time);
-        play_all_time = findViewById(R.id.all_time);
 
-        play_duration = findViewById(R.id.play_duration);
+
+
         handler = new Handler();
 
         Button btnPassword = findViewById(R.id.btnPassword);
@@ -122,26 +143,27 @@ public class SoundNoteActivity extends AppCompatActivity {
         btnSaveNote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                {
+                    String title = ((EditText) findViewById(R.id.sound_title)).getText().toString();
+                    String currentDate = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault()).format(new Date());
 
-                String title = ((EditText) findViewById(R.id.sound_title)).getText().toString();
-                String currentDate = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault()).format(new Date());
+                    final Intent intent = new Intent();
+                    if (isEditable) {
+                        intent.putExtra("id", id);
+                        intent.putExtra("position", position);
+                    }
 
-                final Intent intent = new Intent();
-                if (isEditable) {
-                    intent.putExtra("id", id);
-                    intent.putExtra("position", position);
+                    intent.putExtra("title", title);
+                    intent.putExtra("path", path);
+                    intent.putExtra("changeDate", currentDate);
+
+
+                    intent.putExtra("isEditable", isEditable);
+                    setResult(RESULT_OK, intent);
+
+                    intent.putExtra("password", password);
+                    finish();
                 }
-
-                intent.putExtra("title", title);
-                intent.putExtra("path", path);
-                intent.putExtra("changeDate", currentDate);
-
-
-                intent.putExtra("isEditable", isEditable);
-                setResult(RESULT_OK, intent);
-
-                intent.putExtra("password", password);
-                finish();
             }
         });
 
@@ -167,6 +189,7 @@ public class SoundNoteActivity extends AppCompatActivity {
                     mediaPlayer.pause();
                     play_timer.cancel();
                 }
+
             }
 
             @Override
@@ -177,8 +200,9 @@ public class SoundNoteActivity extends AppCompatActivity {
                 else
                     mediaPlayer.seekTo(0);
 
-                mediaPlayer.start();
-                MyTimer();
+               // mediaPlayer.start();
+                playStart(seekBar);
+               // MyTimer();
             }
         });
 
@@ -431,7 +455,7 @@ public class SoundNoteActivity extends AppCompatActivity {
 
 
     private void MyTimer() {
-        int duration = (mediaPlayer.getDuration() - (passedSec * 1000));
+        int duration = (mediaPlayer.getDuration() - (passedSec * 1000)+1000);
         play_timer = new CountDownTimer(duration, 1000) {
 
             public void onTick(long millisUntilFinished) {

@@ -4,9 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ViewListNoteActivity"
+    android:orientation="vertical"
     android:padding="30dp"
-    android:orientation="vertical">
+    tools:context=".ViewListNoteActivity">
 
     <LinearLayout
         android:id="@+id/linLayout"
@@ -17,14 +17,15 @@
         >
 
         <TextView
+            android:id="@+id/view_list_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/view_list_title"
+            android:layout_marginBottom="20dp"
+            android:layout_weight="1"
             android:text="Title"
             android:textSize="35dp"
-            android:layout_weight="1"
-            android:textStyle="bold"
-            android:layout_marginBottom="20dp"/>
+            android:textStyle="bold" />
+
         <ImageButton
             android:id="@+id/view_list_btnEdit"
             android:layout_width="wrap_content"
@@ -34,10 +35,16 @@
             android:src="@mipmap/ic_edit" />
     </LinearLayout>
 
-    <LinearLayout
+
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/view_list_layout"
-        android:orientation="vertical"/>
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/view_list_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" />
+    </ScrollView>
 
 </LinearLayout>

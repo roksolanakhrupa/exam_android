@@ -29,4 +29,7 @@ public interface NoteDAO {
     @Delete
     void delete(Note employee);
 
+    @Query("INSERT into Note(title, path, type, changeDate, password) values (:title, :path, :type, :changeDate, :password)")
+    void insertByFields(String title, String path, String type, String changeDate, String password);
+
 }

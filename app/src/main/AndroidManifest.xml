@@ -14,16 +14,18 @@
         android:roundIcon="@drawable/diploma_logo"
         android:supportsRtl="true"
         android:theme="@style/NoActionBar">
-        <activity android:name=".SoundNoteActivity"></activity>
-        <activity android:name=".ViewSoundNoteActivity" />
-        <activity android:name=".ListNoteActivity" />
-        <activity android:name=".ViewListNoteActivity" />
-        <activity android:name=".ViewPhotoNoteActivity" />
-        <activity android:name=".ViewTextNoteActivity" />
-        <activity android:name=".PhotoNoteActivity" />
-        <activity android:name=".TextNoteActivity" />
-        <activity android:name=".HomeActivity" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".ViewSoundNoteActivity"  android:screenOrientation="portrait" android:configChanges="orientation|keyboardHidden|screenSize|screenLayout"/>
+        <activity android:name=".ViewListNoteActivity"  android:screenOrientation="portrait" android:configChanges="orientation|keyboardHidden|screenSize|screenLayout"/>
+        <activity android:name=".ViewPhotoNoteActivity"  android:screenOrientation="portrait" android:configChanges="orientation|keyboardHidden|screenSize|screenLayout"/>
+        <activity android:name=".ViewTextNoteActivity" android:screenOrientation="portrait" android:configChanges="orientation|keyboardHidden|screenSize|screenLayout"/>
+
+        <activity android:name=".SoundNoteActivity" android:screenOrientation="portrait"  android:configChanges="orientation|keyboardHidden|screenSize|screenLayout"/>
+        <activity android:name=".ListNoteActivity"  android:screenOrientation="portrait" android:configChanges="orientation|keyboardHidden|screenSize|screenLayout"/>
+        <activity android:name=".PhotoNoteActivity" android:screenOrientation="portrait"  android:configChanges="orientation|keyboardHidden|screenSize|screenLayout"/>
+        <activity android:name=".TextNoteActivity" android:screenOrientation="portrait"  android:configChanges="orientation|keyboardHidden|screenSize|screenLayout"/>
+
+        <activity android:name=".HomeActivity" android:screenOrientation="portrait"  android:configChanges="orientation|keyboardHidden|screenSize|screenLayout"/>
+        <activity android:name=".MainActivity"  android:screenOrientation="portrait" android:configChanges="orientation|keyboardHidden|screenSize|screenLayout">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

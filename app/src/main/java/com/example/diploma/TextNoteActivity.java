@@ -36,6 +36,7 @@ public class TextNoteActivity extends AppCompatActivity {
 
     String password = "";
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,26 +91,51 @@ public class TextNoteActivity extends AppCompatActivity {
         btnSaveNote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                btnSaveClick(v);
+            }
+        });
 
-                String title = ((EditText) findViewById(R.id.title)).getText().toString();
-                String content = ((EditText) findViewById(R.id.content)).getText().toString();
-                String currentDate = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault()).format(new Date());
+//        Toast.makeText(getApplicationContext(), "tmp id: " + id, Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getApplicationContext(), "tmp title: " + ((EditText) findViewById(R.id.title)).getText().toString(), Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getApplicationContext(), "tmp content: " + ((EditText) findViewById(R.id.content)).getText().toString(), Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getApplicationContext(), "tmp path: " + path, Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getApplicationContext(), "tmp password: " + password, Toast.LENGTH_SHORT).show();
 
-                final Intent intent = new Intent();
-                if (isEditable) {
-                    intent.putExtra("id", id);
-                    WriteToFile(content, path);
-                    intent.putExtra("position", position);
-                } else
-                    path = createFile(content);
+//        if (savedInstanceState != null) {
+//            EditText et_title = findViewById(R.id.title);
+//            EditText et_content = findViewById(R.id.content);
+//
+//            String title = savedInstanceState.getString("title");
+//            String content = savedInstanceState.getString("content");
+//            password = savedInstanceState.getString("password");
+//            isEditable = savedInstanceState.getBoolean("isEditable");
+//
+//            et_title.setText(title);
+//            et_content.setText(content);
+//        }
 
-                intent.putExtra("title", title);
-                intent.putExtra("path", path);
-                intent.putExtra("changeDate", currentDate);
+    }
+
+    private void btnSaveClick(View v) {
+        String title = ((EditText) findViewById(R.id.title)).getText().toString();
+        String content = ((EditText) findViewById(R.id.content)).getText().toString();
+        String currentDate = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault()).format(new Date());
+
+        final Intent intent = new Intent();
+        if (isEditable) {
+            intent.putExtra("id", id);
+            WriteToFile(content, path);
+            intent.putExtra("position", position);
+        } else
+            path = createFile(content);
+
+        intent.putExtra("title", title);
+        intent.putExtra("path", path);
+        intent.putExtra("changeDate", currentDate);
 
 
-                intent.putExtra("isEditable", isEditable);
-                setResult(RESULT_OK, intent);
+        intent.putExtra("isEditable", isEditable);
+        setResult(RESULT_OK, intent);
 //                if (!isEditable) {
 //                    AlertDialog.Builder mBuilder = new AlertDialog.Builder(TextNoteActivity.this);
 //                    final View mView = getLayoutInflater().inflate(R.layout.dialog_set_pass, null);
@@ -150,11 +176,14 @@ public class TextNoteActivity extends AppCompatActivity {
 //                    finish();
 //                }
 
+//        Toast.makeText(getApplicationContext(), "tmp id: " + id, Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getApplicationContext(), "tmp title: " + ((EditText) findViewById(R.id.title)).getText().toString(), Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getApplicationContext(), "tmp content: " + ((EditText) findViewById(R.id.content)).getText().toString(), Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getApplicationContext(), "tmp path: " + path, Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getApplicationContext(), "tmp password: " + password, Toast.LENGTH_SHORT).show();
 
-                intent.putExtra("password", password);
-                finish();
-            }
-        });
+        intent.putExtra("password", password);
+        finish();
     }
 
 
@@ -320,4 +349,14 @@ public class TextNoteActivity extends AppCompatActivity {
         }
         return false;
     }
+
+//    @Override
+//    protected void onSaveInstanceState(Bundle outState) {
+//        super.onSaveInstanceState(outState);
+//
+//        outState.putString("title", ((EditText) findViewById(R.id.title)).getText().toString());
+//        outState.putString("content", ((EditText) findViewById(R.id.content)).getText().toString());
+//        outState.putString("password", password);
+//        outState.putBoolean("isEditable", isEditable);
+//    }
 }

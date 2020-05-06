@@ -207,7 +207,7 @@ public class ViewSoundNoteActivity extends AppCompatActivity {
             play_pause.setEnabled(true);
             play_stop.setEnabled(true);
 
-            int timerDuration = mediaPlayer.getDuration() - (passedSec*1000);
+            int timerDuration = mediaPlayer.getDuration() - (passedSec*1000)+1000;
             timer = new CountDownTimer(timerDuration, 1000) {
 
                 public void onTick(long millisUntilFinished) {

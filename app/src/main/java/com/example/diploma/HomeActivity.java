@@ -263,6 +263,7 @@ import com.baoyz.swipemenulistview.SwipeMenuItem;
 import com.baoyz.swipemenulistview.SwipeMenuListView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -593,119 +594,51 @@ public class HomeActivity extends AppCompatActivity {
         if (data == null) {
             return;
         }
+        String title = data.getStringExtra("title");
+        String path = data.getStringExtra("path");
+        String changeDate = data.getStringExtra("changeDate");
+        String password = data.getStringExtra("password");
+
+
+        Note note = new Note();
+        note.title = title;
+        note.path = path;
+        note.changeDate = changeDate;
+        note.password = password;
+
         switch (requestCode) {
-            case 1: {
-                String title = data.getStringExtra("title");
-                String path = data.getStringExtra("path");
-                String changeDate = data.getStringExtra("changeDate");
-                String password = data.getStringExtra("password");
-
-
-                Note note = new Note();
-                note.title = title;
-                note.path = path;
-                note.changeDate = changeDate;
+            case 1:
                 note.type = "text";
-                note.password = password;
-                Boolean isEditable = data.getBooleanExtra("isEditable", false);
-                if (isEditable) {
-                    note.id = data.getIntExtra("id", 1);
-                    noteDAO.update(note);
-                    int position = data.getIntExtra("position", 0);
-                    noteAdapter.remove(noteAdapter.getItem(position));
-                    noteAdapter.insert(note, position);
-                } else {
-                    noteDAO.insert(note);
-                    noteAdapter.add(note);
-
-                }
-
-
-            }
             break;
-            case 2: {
-
-                String title = data.getStringExtra("title");
-                String path = data.getStringExtra("path");
-                String changeDate = data.getStringExtra("changeDate");
-                String password = data.getStringExtra("password");
-
-
-                Note note = new Note();
-                note.title = title;
-                note.path = path;
-                note.changeDate = changeDate;
-                note.password = password;
+            case 2:
                 note.type = "photo";
-                Boolean isEditable = data.getBooleanExtra("isEditable", false);
-                if (isEditable) {
-                    note.id = data.getIntExtra("id", 1);
-                    noteDAO.update(note);
-                    int position = data.getIntExtra("position", 0);
-                    noteAdapter.remove(noteAdapter.getItem(position));
-                    noteAdapter.insert(note, position);
-                } else {
-                    noteDAO.insert(note);
-                    noteAdapter.add(note);
-
-                }
-            }
             break;
-            case 3: {
-                String title = data.getStringExtra("title");
-                String path = data.getStringExtra("path");
-                String changeDate = data.getStringExtra("changeDate");
-                String password = data.getStringExtra("password");
-
-
-                Note note = new Note();
-                note.title = title;
-                note.path = path;
-                note.changeDate = changeDate;
-                note.password = password;
+            case 3:
                 note.type = "list";
-                Boolean isEditable = data.getBooleanExtra("isEditable", false);
-                if (isEditable) {
-                    note.id = data.getIntExtra("id", 1);
-                    noteDAO.update(note);
-                    int position = data.getIntExtra("position", 0);
-                    noteAdapter.remove(noteAdapter.getItem(position));
-                    noteAdapter.insert(note, position);
-                } else {
-                    noteDAO.insert(note);
-                    noteAdapter.add(note);
-
-                }
-            }
             break;
-            case 4: {
-                String title = data.getStringExtra("title");
-                String path = data.getStringExtra("path");
-                String changeDate = data.getStringExtra("changeDate");
-                String password = data.getStringExtra("password");
-
-                Note note = new Note();
-                note.title = title;
-                note.path = path;
-                note.changeDate = changeDate;
-                note.password = password;
+            case 4:
                 note.type = "sound";
-                Boolean isEditable = data.getBooleanExtra("isEditable", false);
-                if (isEditable) {
-                    note.id = data.getIntExtra("id", 1);
-                    noteDAO.update(note);
-                    int position = data.getIntExtra("position", 0);
-                    noteAdapter.remove(noteAdapter.getItem(position));
-                    noteAdapter.insert(note, position);
-                } else {
-                    noteDAO.insert(note);
-                    noteAdapter.add(note);
-
-                }
-            }
             break;
         }
+        Boolean isEditable = data.getBooleanExtra("isEditable", false);
+        if (isEditable) {
+            note.id = data.getIntExtra("id", 1);
+            noteDAO.update(note);
+            int position = data.getIntExtra("position", 0);
 
+            noteAdapter.remove(noteAdapter.getItem(position));
+            noteAdapter.insert(note, position);
+
+        } else {
+            noteDAO.insertByFields(title, path, note.type, changeDate, password);
+//                    noteDAO.insert(note);
+//                    ((List<Note>)noteDAO.getAll()).indexOf(note);
+//                    noteDAO.getById()
+            Note n=noteDAO.getAll().get(noteDAO.getCount()-1);
+            Toast.makeText(getApplicationContext(), String.valueOf(n.id), Toast.LENGTH_SHORT).show();
+            noteAdapter.add(n);
+
+        }
         noteAdapter.notifyDataSetChanged();
         notesList.setAdapter(noteAdapter);
 

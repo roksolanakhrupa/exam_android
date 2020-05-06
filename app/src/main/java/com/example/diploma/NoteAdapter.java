@@ -1,17 +1,11 @@
 package com.example.diploma;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.media.Image;
-import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.CheckBox;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -42,12 +36,11 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 
         TextView title = (TextView) view.findViewById(R.id.item_title);
         TextView changeDate = (TextView) view.findViewById(R.id.item_changeDate);
-//        CheckBox isDone = (CheckBox) view.findViewById(R.id.isDone);
         ImageView type = view.findViewById(R.id.item_type);
 
 
         Note note = notes.get(position);
-        title.setText(note.getTitle());
+        title.setText(note.getTitle()+", "+note.getId());
         changeDate.setText(note.getChangeDate());
         if (note.type.equals("text"))
             type.setBackgroundResource(R.mipmap.ic_textnote);
@@ -57,8 +50,6 @@ public class NoteAdapter extends ArrayAdapter<Note> {
             type.setBackgroundResource(R.mipmap.ic_listnote);
         if (note.type.equals("sound"))
             type.setBackgroundResource(R.mipmap.ic_soundnote);
-
-//        note.isChecked = isDone.isChecked();
 
 
         return view;

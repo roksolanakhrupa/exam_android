@@ -53,6 +53,8 @@ public class CanvasView extends View {
         mPaint.setStrokeJoin(Paint.Join.ROUND);
         mPaint.setStrokeWidth(4f);
         paints.add(mPaint);
+
+
     }
 
     public void changeColor(int newColor) {
@@ -102,25 +104,79 @@ public class CanvasView extends View {
         mBitmap = b;
         Bitmap copy = mBitmap.copy(Bitmap.Config.ARGB_8888, true);
         mCanvas = new Canvas(copy);
+        Toast.makeText(getContext(), "h: "+mCanvas.getHeight()+"\nw: "+mCanvas.getWidth(), Toast.LENGTH_SHORT).show();
     }
 
-    public void clearBitmap()
-    {
+    public void clearBitmap() {
         mBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
         mCanvas = new Canvas(mBitmap);
+
     }
 
 
     public void setBackgroundImage(Bitmap backgroundImage) {
         this.backgroundImage = backgroundImage;
+        if (backgroundImage != null) {
+            DrawScaledBitmap(mCanvas);
+//            Rect src = new Rect(0, 0, backgroundImage.getWidth() - 1, backgroundImage.getHeight() - 1);
+//            Rect dest;
+//            if (backgroundImage.getWidth() > backgroundImage.getHeight())
+//                dest = new Rect(0, 0, mCanvas.getHeight(), mCanvas.getHeight());
+//            else
+//                dest = new Rect(0, 0, mCanvas.getWidth(), mCanvas.getWidth());
+//            mCanvas.drawBitmap(backgroundImage, src, dest, null);
+
+
+//            if(backgroundImage.getWidth()>backgroundImage.getHeight()) {
+//                percentWidth=100;
+//                percentHeight=(backgroundImage.getHeight()*100)/backgroundImage.getWidth();
+//                int imgHeight=(mCanvas.getHeight()*percentHeight)/100;
+//                int imgWidth=mCanvas.getWidth();
+//                Rect src = new Rect(0, 0, imgWidth, imgHeight);
+//                Rect dest=new Rect(0,0, mCanvas.getWidth(), mCanvas.getHeight());
+//                mCanvas.drawBitmap(backgroundImage, src, dest, null);
+//                Toast.makeText(getContext(), "canvas h: "+mCanvas.getHeight()
+//                        +"\ncanvas w: "
+//                        + mCanvas.getWidth()
+//                        +"\nimg h: "
+//                        + imgHeight
+//                        +"\nimg w: "
+//                        +imgWidth, Toast.LENGTH_LONG).show();
+        }
     }
+
+    void DrawScaledBitmap(Canvas tmpCanvas)
+    {
+        final int maxSize = tmpCanvas.getWidth();
+        int outWidth;
+        int outHeight;
+        int inWidth = backgroundImage.getWidth();
+        int inHeight = backgroundImage.getHeight();
+        int marginLeft=0;
+        int marginTop=0;
+        if (inWidth > inHeight) {
+            outWidth = maxSize;
+            outHeight = (inHeight * maxSize) / inWidth;
+            marginTop=(outWidth-outHeight)/2;
+
+        } else {
+            outHeight = maxSize;
+            outWidth = (inWidth * maxSize) / inHeight;
+            marginLeft=(outHeight-outWidth)/2;
+        }
+
+        Bitmap resizedBitmap = Bitmap.createScaledBitmap(backgroundImage, outWidth, outHeight, false);
+        tmpCanvas.drawBitmap(resizedBitmap, marginLeft, marginTop, null);
+      //  tmpCanvas.drawBitmap(mBitmap, 0, 0, null);
+    }
+
 
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
         // your Canvas will draw onto the defined Bitmap
-width=w;
-height=h;
+        width = w;
+        height = h;
         if (!isEditable) {
             mBitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
             mCanvas = new Canvas(mBitmap);
@@ -131,17 +187,32 @@ height=h;
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+        canvas.drawBitmap(mBitmap, 0, 0, null);
         if (backgroundImage != null) {
-            Rect src = new Rect(0, 0, backgroundImage.getWidth() - 1, backgroundImage.getHeight() - 1);
-            Rect dest;
-            if (backgroundImage.getWidth() > backgroundImage.getHeight())
-                dest = new Rect(0, 0, mCanvas.getHeight(), mCanvas.getHeight());
-            else
-                dest = new Rect(0, 0, mCanvas.getWidth(), mCanvas.getWidth());
-            canvas.drawBitmap(backgroundImage, src, dest, null);
+
+            DrawScaledBitmap(canvas);
+//            final int maxSize = mCanvas.getWidth();
+//            int outWidth;
+//            int outHeight;
+//            int inWidth = backgroundImage.getWidth();
+//            int inHeight = backgroundImage.getHeight();
+//            int marginLeft=0;
+//            int marginTop=0;
+//            if (inWidth > inHeight) {
+//                outWidth = maxSize;
+//                outHeight = (inHeight * maxSize) / inWidth;
+//                marginTop=(outWidth-outHeight)/2;
+//
+//            } else {
+//                outHeight = maxSize;
+//                outWidth = (inWidth * maxSize) / inHeight;
+//                marginLeft=(outHeight-outWidth)/2;
+//            }
+//            Bitmap resizedBitmap = Bitmap.createScaledBitmap(backgroundImage, outWidth, outHeight, false);
+//            mCanvas.drawBitmap(resizedBitmap, marginLeft, marginTop, null);
 
         }
-        canvas.drawBitmap(mBitmap, 0, 0, null);
+
         for (int i = 0; i < paths.size(); i++) {
             canvas.drawPath(paths.get(i), paints.get(i));
         }

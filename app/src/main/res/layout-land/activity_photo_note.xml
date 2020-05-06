@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    tools:context=".PhotoNoteActivity">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        >
+
+        <com.example.diploma.CanvasView
+            android:id="@+id/canvas"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            android:textColor="#FFFFFF"></com.example.diploma.CanvasView>
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_weight="1"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <EditText
+            android:id="@+id/photo_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="18dp"
+            android:background="@null"
+            android:hint="title"
+            android:padding="46px"
+            android:textSize="35dp"
+            android:textStyle="bold" />
+        <SeekBar
+            android:id="@+id/seekBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="0dp"
+            android:max="100"
+            android:progress="10" />
+        <LinearLayout
+            android:id="@+id/colors"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:layout_weight="1">
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/btn_addCameraPhoto"
+                android:background="@mipmap/ic_addphoto"/>
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/btn_addGalleryPhoto"
+                android:background="@mipmap/ic_add_gallery"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Clear"
+                android:id="@+id/clear"/>
+
+            <ImageButton
+                android:id="@+id/pen_red"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_margin="0dp"
+                android:background="@color/colorRed" />
+
+            <!--            <ImageButton-->
+            <!--                android:id="@+id/pen_black"-->
+            <!--                android:layout_width="20dp"-->
+            <!--                android:layout_height="20dp"-->
+            <!--                android:layout_margin="10dp"-->
+            <!--                android:background="@color/colorBlack" />-->
+
+            <!--            <ImageButton-->
+            <!--                android:id="@+id/pen_grey"-->
+            <!--                android:layout_width="20dp"-->
+            <!--                android:layout_height="20dp"-->
+            <!--                android:layout_margin="10dp"-->
+            <!--                android:background="@color/colorGrey" />-->
+
+            <!--            <ImageButton-->
+            <!--                android:id="@+id/pen_white"-->
+            <!--                android:layout_width="20dp"-->
+            <!--                android:layout_height="20dp"-->
+            <!--                android:layout_margin="10dp"-->
+            <!--                android:background="@drawable/button_border"-->
+            <!--                />-->
+
+            <!--<ImageView-->
+            <!--    android:layout_width="match_parent"-->
+            <!--    android:layout_height="match_parent"-->
+            <!--    android:id="@+id/test_image"/>-->
+
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btnPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:text="Password" />
+        <Button
+            android:id="@+id/draw_save"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:text="Save" />
+    </LinearLayout>
+
+
+
+
+
+
+
+
+</LinearLayout>

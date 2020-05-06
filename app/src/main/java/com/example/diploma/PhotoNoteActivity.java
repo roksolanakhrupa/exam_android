@@ -446,10 +446,10 @@ public class PhotoNoteActivity extends AppCompatActivity {
 
 
         final ImageButton pen_red = findViewById(R.id.pen_red);
-        final ImageButton pen_black = findViewById(R.id.pen_black);
-        final ImageButton pen_white = findViewById(R.id.pen_white);
-        final ImageButton pen_grey = findViewById(R.id.pen_grey);
-        pen_black.setBackgroundResource(R.drawable.button_border);
+//        final ImageButton pen_black = findViewById(R.id.pen_black);
+//        final ImageButton pen_white = findViewById(R.id.pen_white);
+//        final ImageButton pen_grey = findViewById(R.id.pen_grey);
+       // pen_black.setBackgroundResource(R.drawable.button_border);
 
         pen_red.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -459,28 +459,25 @@ public class PhotoNoteActivity extends AppCompatActivity {
         });
 
 
-        pen_black.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                customCanvas.changeColor(Color.BLACK);
-            }
-        });
-
-
-        pen_white.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                customCanvas.changeColor(Color.WHITE);
-            }
-        });
-
-
-        pen_grey.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                customCanvas.changeColor(Color.RED);
-            }
-        });
+//        pen_black.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) { customCanvas.changeColor(Color.BLACK);
+//            }
+//        });
+//
+//
+//        pen_white.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) { customCanvas.changeColor(Color.WHITE);
+//            }
+//        });
+//
+//
+//        pen_grey.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) { customCanvas.changeColor(Color.GRAY);
+//            }
+//        });
 
         ImageButton btn_addGalleryPhoto = findViewById(R.id.btn_addGalleryPhoto);
         btn_addGalleryPhoto.setOnClickListener(new View.OnClickListener() {
