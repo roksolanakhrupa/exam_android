@@ -1,4 +1,4 @@
-package com.example.diploma;
+package com.example.diploma.view;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,12 +15,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.File;
+import com.example.diploma.edit.PhotoNoteActivity;
+import com.example.diploma.R;
 
 public class ViewPhotoNoteActivity extends AppCompatActivity {
 
     private String path = "";
-    private int id = 0;
+    private long id = 0;
     private int position = 0;
 
     private boolean isPossible=true;
@@ -35,7 +36,7 @@ public class ViewPhotoNoteActivity extends AppCompatActivity {
 
 
         path = getIntent().getStringExtra("path");
-        id = getIntent().getIntExtra("id", 0);
+        id = getIntent().getLongExtra("id", 0);
         position = getIntent().getIntExtra("position", 0);
 
 

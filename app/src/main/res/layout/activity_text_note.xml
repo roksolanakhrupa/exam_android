@@ -6,7 +6,7 @@
     android:layout_height="fill_parent"
     android:orientation="vertical"
     android:padding="50px"
-    tools:context=".TextNoteActivity"
+    tools:context=".edit.TextNoteActivity"
 
     >
 

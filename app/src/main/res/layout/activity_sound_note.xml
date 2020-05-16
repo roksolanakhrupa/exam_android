@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="50px"
-    tools:context=".SoundNoteActivity">
+    tools:context=".edit.SoundNoteActivity">
 
     <LinearLayout
         android:id="@+id/linLayout"

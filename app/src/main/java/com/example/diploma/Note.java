@@ -78,38 +78,40 @@
 package com.example.diploma;
 
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 @Entity
 public class Note {
 
     @PrimaryKey(autoGenerate = true)
-    public int id;
+    public long id;
 
     public String title;
     public String path;
-    public String type; //text, photo, voice, list
+    public String type; //text, photo, list, sound
 
     public String changeDate;
     public String password;
 
-//    public Note(int id, String title, String path, String type, String changeDate, String password) {
-//        this.id = id;
-//        this.title = title;
-//        this.path = path;
-//        this.type = type;
-//        this.changeDate = changeDate;
-//        this.password = password;
-//    }
+    public Note(long id, String title, String path, String type, String changeDate, String password) {
+        this.id = id;
+        this.title = title;
+        this.path = path;
+        this.type = type;
+        this.changeDate = changeDate;
+        this.password = password;
+    }
 
+    @Ignore
     public Note() {
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 

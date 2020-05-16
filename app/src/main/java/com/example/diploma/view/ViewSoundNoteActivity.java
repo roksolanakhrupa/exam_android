@@ -1,4 +1,4 @@
-package com.example.diploma;
+package com.example.diploma.view;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,12 +15,15 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.diploma.R;
+import com.example.diploma.edit.SoundNoteActivity;
+
 import java.io.IOException;
 
 public class ViewSoundNoteActivity extends AppCompatActivity {
 
     private String path = "";
-    private int id = 0;
+    private long id = 0;
     private int position = 0;
 
     private boolean isPossible = true;
@@ -79,7 +81,7 @@ public class ViewSoundNoteActivity extends AppCompatActivity {
     private void InitView() {
         String title = getIntent().getStringExtra("title");
         path = getIntent().getStringExtra("path");
-        id = getIntent().getIntExtra("id", 0);
+        id = getIntent().getLongExtra("id", 0);
         position = getIntent().getIntExtra("position", 0);
 
         TextView et_title = findViewById(R.id.sound_title);

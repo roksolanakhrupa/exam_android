@@ -1,0 +1,33 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".AddNoteActivity">
+
+    <ImageButton
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:id="@+id/imgbtn_text"
+        android:layout_gravity="center_horizontal"
+        android:background="@mipmap/ic_textnote" />
+    <ImageButton
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:id="@+id/imgbtn_photo"
+        android:layout_gravity="center_horizontal"
+        android:background="@mipmap/ic_photonote" />
+    <ImageButton
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:id="@+id/imgbtn_list"
+        android:layout_gravity="center_horizontal"
+        android:background="@mipmap/ic_listnote" />
+    <ImageButton
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:id="@+id/imgbtn_sound"
+        android:layout_gravity="center_horizontal"
+        android:background="@mipmap/ic_soundnote" />
+
+</LinearLayout>

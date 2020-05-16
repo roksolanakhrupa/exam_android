@@ -37,11 +37,24 @@
         android:layout_height="2dp"
         android:background="@android:color/white" />
 
+<!--    <androidx.recyclerview.widget.RecyclerView-->
+<!--        android:id="@+id/notesList"-->
+<!--        android:scrollbars="vertical"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_weight="1"/>-->
+
     <com.baoyz.swipemenulistview.SwipeMenuListView
         android:id="@+id/notesList"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_weight="1" />
+
+<!--    <ListView-->
+<!--        android:id="@+id/notesList"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_weight="1" />-->
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -57,6 +70,7 @@
             android:layout_alignParentBottom="true"
             android:layout_gravity="center_vertical"
             android:layout_weight="1"
+            android:fontFamily="sans-serif-condensed-medium"
             android:gravity="center"
             android:text="Count" />
 

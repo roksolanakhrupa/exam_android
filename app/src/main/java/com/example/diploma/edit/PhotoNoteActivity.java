@@ -311,16 +311,13 @@
 //}
 //
 
-package com.example.diploma;
+package com.example.diploma.edit;
 
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -331,7 +328,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.SeekBar;
 import android.widget.Toast;
@@ -339,13 +335,11 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
+import com.example.diploma.CanvasView;
+import com.example.diploma.R;
+
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -362,7 +356,7 @@ public class PhotoNoteActivity extends AppCompatActivity {
     public static final int FROM_CAMERA = 124;
 
     boolean isEditable = false;
-    int id = 0;
+    long id = 0;
     int position = 0;
     String path = "";
 
@@ -388,7 +382,7 @@ public class PhotoNoteActivity extends AppCompatActivity {
 
             String title = getIntent().getStringExtra("title");
             path = getIntent().getStringExtra("path");
-            id = getIntent().getIntExtra("id", 0);
+            id = getIntent().getLongExtra("id", 0);
             position = getIntent().getIntExtra("position", 0);
             password = getIntent().getStringExtra("password");
 

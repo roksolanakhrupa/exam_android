@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".PhotoNoteActivity">
+    tools:context=".edit.PhotoNoteActivity">
     <EditText
         android:id="@+id/photo_title"
         android:layout_width="match_parent"

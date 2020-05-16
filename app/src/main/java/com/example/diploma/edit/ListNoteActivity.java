@@ -1,19 +1,24 @@
-package com.example.diploma;
+package com.example.diploma.edit;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.Toast;
+
+import com.example.diploma.R;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -25,22 +30,21 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-public class TextNoteActivity extends AppCompatActivity {
+public class ListNoteActivity extends AppCompatActivity {
 
     public String DIRECTORY = "diploma";
 
     boolean isEditable = false;
-    int id = 0;
+    long id = 0;
     int position = 0;
     String path = "";
 
     String password = "";
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_text_note);
+        setContentView(R.layout.activity_list_note);
 
 
         Bundle extras = getIntent().getExtras();
@@ -49,16 +53,26 @@ public class TextNoteActivity extends AppCompatActivity {
         else {
             isEditable = true;
 
-            EditText et_title = findViewById(R.id.title);
-            EditText et_content = findViewById(R.id.content);
+            EditText et_title = findViewById(R.id.list_title);
+            LinearLayout list_layout = findViewById(R.id.list_layout);
 
             String title = getIntent().getStringExtra("title");
             path = getIntent().getStringExtra("path");
-            id = getIntent().getIntExtra("id", 0);
+            id = getIntent().getLongExtra("id", 0);
             position = getIntent().getIntExtra("position", 0);
             password = getIntent().getStringExtra("password");
 
             et_title.setText(title);
+
+
+
+            Button btnPassword = findViewById(R.id.btnPassword);
+            btnPassword.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    showPasswordMenu(v);
+                }
+            });
 
 
             File file = new File(getIntent().getStringExtra("path"));
@@ -74,116 +88,144 @@ public class TextNoteActivity extends AppCompatActivity {
                 br.close();
             } catch (IOException e) {
             }
-            et_content.setText(text.toString());
+
+
+            String textStr = text.toString();
+            String items[] = textStr.split("-----");
+            for (int i = 0; i < items.length-1; i++) {
+                CheckBox cb = new CheckBox(list_layout.getContext());
+                cb.setTextColor(Color.BLACK);
+                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                cb.setLayoutParams(lp);
+
+                EditText et=new EditText(list_layout.getContext());
+                et.setText(items[i]);
+                et.setBackground(null);
+                LinearLayout.LayoutParams lp2 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                et.setLayoutParams(lp2);
+
+                LinearLayout lin=new LinearLayout(list_layout.getContext());
+                LinearLayout.LayoutParams lp3 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                lin.setLayoutParams(lp3);
+                lin.setOrientation(LinearLayout.HORIZONTAL);
+                lin.addView(cb);
+                lin.addView(et);
+
+                list_layout.addView(lin);
+            }
 
         }
 
 
-        Button btnPassword = findViewById(R.id.btnPassword);
-        btnPassword.setOnClickListener(new View.OnClickListener() {
+        Button list_add_item=findViewById(R.id.list_add_item);
+        list_add_item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showPasswordMenu(v);
+                LinearLayout list_layout = findViewById(R.id.list_layout);
+
+                CheckBox cb = new CheckBox(v.getContext());
+                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                cb.setLayoutParams(lp);
+
+
+                EditText et=new EditText(v.getContext());
+                et.setHint("new item");
+                et.setBackground(null);
+                LinearLayout.LayoutParams lp2 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                et.setLayoutParams(lp2);
+
+                LinearLayout lin=new LinearLayout(v.getContext());
+                LinearLayout.LayoutParams lp3 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                lin.setLayoutParams(lp3);
+                lin.setOrientation(LinearLayout.HORIZONTAL);
+                lin.addView(cb);
+                lin.addView(et);
+
+                list_layout.addView(lin);
+
+
             }
         });
 
-        final ImageButton btnSaveNote = findViewById(R.id.btnSaveNote);
+        ImageButton btnSaveNote = findViewById(R.id.list_btnSaveNote);
         btnSaveNote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                btnSaveClick(v);
+
+                String title = ((EditText) findViewById(R.id.list_title)).getText().toString();
+                String currentDate = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault()).format(new Date());
+
+                String content = getListItems();
+
+                Intent intent = new Intent();
+                if (isEditable) {
+                    intent.putExtra("id", id);
+                    WriteToFile(content, path);
+                    intent.putExtra("position", position);
+                } else
+                    path = createFile(content);
+
+                intent.putExtra("title", title);
+                intent.putExtra("path", path);
+                intent.putExtra("changeDate", currentDate);
+
+                intent.putExtra("password", password);
+                intent.putExtra("isEditable", isEditable);
+                setResult(RESULT_OK, intent);
+                finish();
             }
         });
 
-//        Toast.makeText(getApplicationContext(), "tmp id: " + id, Toast.LENGTH_SHORT).show();
-//        Toast.makeText(getApplicationContext(), "tmp title: " + ((EditText) findViewById(R.id.title)).getText().toString(), Toast.LENGTH_SHORT).show();
-//        Toast.makeText(getApplicationContext(), "tmp content: " + ((EditText) findViewById(R.id.content)).getText().toString(), Toast.LENGTH_SHORT).show();
-//        Toast.makeText(getApplicationContext(), "tmp path: " + path, Toast.LENGTH_SHORT).show();
-//        Toast.makeText(getApplicationContext(), "tmp password: " + password, Toast.LENGTH_SHORT).show();
-
-//        if (savedInstanceState != null) {
-//            EditText et_title = findViewById(R.id.title);
-//            EditText et_content = findViewById(R.id.content);
-//
-//            String title = savedInstanceState.getString("title");
-//            String content = savedInstanceState.getString("content");
-//            password = savedInstanceState.getString("password");
-//            isEditable = savedInstanceState.getBoolean("isEditable");
-//
-//            et_title.setText(title);
-//            et_content.setText(content);
-//        }
-
     }
 
-    private void btnSaveClick(View v) {
-        String title = ((EditText) findViewById(R.id.title)).getText().toString();
-        String content = ((EditText) findViewById(R.id.content)).getText().toString();
-        String currentDate = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault()).format(new Date());
+    private String createFile(String data) {
 
-        final Intent intent = new Intent();
-        if (isEditable) {
-            intent.putExtra("id", id);
-            WriteToFile(content, path);
-            intent.putExtra("position", position);
-        } else
-            path = createFile(content);
+        File wallpaperDirectory = new File(Environment.getExternalStorageDirectory(), DIRECTORY);
+        if (!wallpaperDirectory.exists())
+            wallpaperDirectory.mkdirs();
 
-        intent.putExtra("title", title);
-        intent.putExtra("path", path);
-        intent.putExtra("changeDate", currentDate);
+        try {
+            File file = new File(wallpaperDirectory, Calendar.getInstance().getTimeInMillis() + ".txt");
+            String path = file.getAbsolutePath();
+            file.createNewFile();
+            WriteToFile(data, path);
+
+            return path;
+        } catch (IOException e) {
+            Log.d("file", e.getMessage());
+        }
+        return "error";
+    }
 
 
-        intent.putExtra("isEditable", isEditable);
-        setResult(RESULT_OK, intent);
-//                if (!isEditable) {
-//                    AlertDialog.Builder mBuilder = new AlertDialog.Builder(TextNoteActivity.this);
-//                    final View mView = getLayoutInflater().inflate(R.layout.dialog_set_pass, null);
-//
-//                    Button btnYes = mView.findViewById(R.id.btnYesPass);
-//                    btnYes.setOnClickListener(new View.OnClickListener() {
-//                        @Override
-//                        public void onClick(View v) {
-//                            String pass = ((EditText) mView.findViewById(R.id.pass)).getText().toString();
-//                            if (!pass.isEmpty()) {
-//                                password=pass;
-//                                intent.putExtra("password", pass);
-//                                finish();
-//
-//                            } else
-//                                Toast.makeText(getApplicationContext(), "Please, enter password", Toast.LENGTH_SHORT).show();
-//                        }
-//                    });
-//
-//                    Button btnNo = mView.findViewById(R.id.btnNoPass);
-//                    btnNo.setOnClickListener(new View.OnClickListener() {
-//                        @Override
-//                        public void onClick(View v) {
-//                            intent.putExtra("password", "");
-//                            finish();
-//
-//                        }
-//                    });
-//
-//
-//                    mBuilder.setView(mView);
-//                    AlertDialog dialog = mBuilder.create();
-//                    dialog.show();
-//
-//
-//                } else {
-//                    intent.putExtra("password", password);
-//                    finish();
-//                }
+    private boolean WriteToFile(String data, String path) {
+        FileWriter fw = null;
+        try {
+            fw = new FileWriter(path);
+            fw.append(data);
+            fw.flush();
+            fw.close();
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 
-//        Toast.makeText(getApplicationContext(), "tmp id: " + id, Toast.LENGTH_SHORT).show();
-//        Toast.makeText(getApplicationContext(), "tmp title: " + ((EditText) findViewById(R.id.title)).getText().toString(), Toast.LENGTH_SHORT).show();
-//        Toast.makeText(getApplicationContext(), "tmp content: " + ((EditText) findViewById(R.id.content)).getText().toString(), Toast.LENGTH_SHORT).show();
-//        Toast.makeText(getApplicationContext(), "tmp path: " + path, Toast.LENGTH_SHORT).show();
-//        Toast.makeText(getApplicationContext(), "tmp password: " + password, Toast.LENGTH_SHORT).show();
+    private String getListItems() {
+        String text = "";
+        LinearLayout lin = findViewById(R.id.list_layout);
+        for (int i = 0; i < lin.getChildCount(); i++) {
+            CheckBox cb=((CheckBox)((LinearLayout)lin.getChildAt(i)).getChildAt(0));
+            if(!cb.isChecked()) {
+                String item = ((EditText) ((LinearLayout) lin.getChildAt(i)).getChildAt(1)).getText().toString();
+                text += item;
+                text += "-----";
+            }
+        }
 
-        intent.putExtra("password", password);
-        finish();
+        return text;
+
     }
 
 
@@ -196,7 +238,7 @@ public class TextNoteActivity extends AppCompatActivity {
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.action_passwordAdd: {
-                        AlertDialog.Builder mBuilder = new AlertDialog.Builder(TextNoteActivity.this);
+                        AlertDialog.Builder mBuilder = new AlertDialog.Builder(ListNoteActivity.this);
                         final View mView = getLayoutInflater().inflate(R.layout.dialog_password_add, null);
                         mBuilder.setView(mView);
                         final AlertDialog dialog = mBuilder.create();
@@ -232,7 +274,7 @@ public class TextNoteActivity extends AppCompatActivity {
                         return true;
                     }
                     case R.id.action_passwordDelete: {
-                        AlertDialog.Builder mBuilder = new AlertDialog.Builder(TextNoteActivity.this);
+                        AlertDialog.Builder mBuilder = new AlertDialog.Builder(ListNoteActivity.this);
                         final View mView = getLayoutInflater().inflate(R.layout.dialog_password_delete, null);
                         mBuilder.setView(mView);
                         final AlertDialog dialog = mBuilder.create();
@@ -264,7 +306,7 @@ public class TextNoteActivity extends AppCompatActivity {
                         return true;
                     }
                     case R.id.action_passwordChange: {
-                        AlertDialog.Builder mBuilder = new AlertDialog.Builder(TextNoteActivity.this);
+                        AlertDialog.Builder mBuilder = new AlertDialog.Builder(ListNoteActivity.this);
                         final View mView = getLayoutInflater().inflate(R.layout.dialog_password_change, null);
                         mBuilder.setView(mView);
                         final AlertDialog dialog = mBuilder.create();
@@ -317,46 +359,4 @@ public class TextNoteActivity extends AppCompatActivity {
         popupMenu.show();
     }
 
-    private String createFile(String data) {
-
-        File wallpaperDirectory = new File(Environment.getExternalStorageDirectory(), DIRECTORY);
-        if (!wallpaperDirectory.exists())
-            wallpaperDirectory.mkdirs();
-
-        try {
-            File file = new File(wallpaperDirectory, Calendar.getInstance().getTimeInMillis() + ".txt");
-            String path = file.getAbsolutePath();
-            file.createNewFile();
-            WriteToFile(data, path);
-
-            return path;
-        } catch (IOException e) {
-            Log.d("file", e.getMessage());
-        }
-        return "error";
-    }
-
-    private boolean WriteToFile(String data, String path) {
-        FileWriter fw = null;
-        try {
-            fw = new FileWriter(path);
-            fw.append(data);
-            fw.flush();
-            fw.close();
-            return true;
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
-
-//    @Override
-//    protected void onSaveInstanceState(Bundle outState) {
-//        super.onSaveInstanceState(outState);
-//
-//        outState.putString("title", ((EditText) findViewById(R.id.title)).getText().toString());
-//        outState.putString("content", ((EditText) findViewById(R.id.content)).getText().toString());
-//        outState.putString("password", password);
-//        outState.putBoolean("isEditable", isEditable);
-//    }
 }

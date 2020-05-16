@@ -1,21 +1,20 @@
-package com.example.diploma;
+package com.example.diploma.view;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.diploma.edit.ListNoteActivity;
+import com.example.diploma.R;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -25,7 +24,7 @@ import java.io.IOException;
 public class ViewListNoteActivity extends AppCompatActivity {
 
     private String path = "";
-    private int id = 0;
+    private long id = 0;
     private int position = 0;
 
     private boolean isPossible=true;
@@ -35,7 +34,7 @@ public class ViewListNoteActivity extends AppCompatActivity {
         setContentView(R.layout.activity_view_list_note);
 
         path = getIntent().getStringExtra("path");
-        id = getIntent().getIntExtra("id", 0);
+        id = getIntent().getLongExtra("id", 0);
         position = getIntent().getIntExtra("position", 0);
 
 

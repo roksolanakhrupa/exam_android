@@ -1,4 +1,4 @@
-package com.example.diploma;
+package com.example.diploma.edit;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,9 +22,9 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.BufferedReader;
+import com.example.diploma.R;
+
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -36,7 +36,7 @@ public class SoundNoteActivity extends AppCompatActivity {
     public String DIRECTORY = "diploma";
 
     boolean isEditable = false;
-    int id = 0;
+    long id = 0;
     int position = 0;
     String path = "";
 
@@ -82,7 +82,7 @@ public class SoundNoteActivity extends AppCompatActivity {
 
             String title = getIntent().getStringExtra("title");
             path = getIntent().getStringExtra("path");
-            id = getIntent().getIntExtra("id", 0);
+            id = getIntent().getLongExtra("id", 0);
             position = getIntent().getIntExtra("position", 0);
             password = getIntent().getStringExtra("password");
 
