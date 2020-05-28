@@ -5,7 +5,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical"
-    android:padding="50px"
+    android:padding="30dp"
     tools:context=".edit.TextNoteActivity"
 
     >
@@ -27,13 +27,14 @@
             android:background="@null"
             android:hint="title"
             android:textSize="35dp"
+            android:textColor="@color/colorBlack"
             android:textStyle="bold" />
 
         <ImageButton
             android:id="@+id/btnSaveNote"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:scaleType="fitXY"
             android:background="@null"
             android:src="@mipmap/ic_savenote" />
     </LinearLayout>
@@ -54,6 +55,7 @@
                 android:id="@+id/content"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:textColor="@color/colorGrey"
                 android:layout_marginBottom="15dp"
                 android:background="@null"
                 android:hint="content" />
@@ -63,9 +65,12 @@
     </ScrollView>
 <Button
     android:layout_width="match_parent"
+    style="@style/Widget.AppCompat.Button.Colored"
+    android:background="@drawable/btn_rounded"
     android:layout_height="wrap_content"
     android:id="@+id/btnPassword"
-    android:text="Password"/>
+    android:text="Password"
+/>
 
 
 </LinearLayout>

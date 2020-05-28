@@ -117,7 +117,7 @@ public class ListNoteActivity extends AppCompatActivity {
         }
 
 
-        Button list_add_item=findViewById(R.id.list_add_item);
+        ImageButton list_add_item=findViewById(R.id.list_add_item);
         list_add_item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -130,6 +130,7 @@ public class ListNoteActivity extends AppCompatActivity {
 
                 EditText et=new EditText(v.getContext());
                 et.setHint("new item");
+                et.setHintTextColor(Color.LTGRAY);
                 et.setBackground(null);
                 LinearLayout.LayoutParams lp2 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
                 et.setLayoutParams(lp2);

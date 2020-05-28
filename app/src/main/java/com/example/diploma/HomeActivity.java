@@ -1123,10 +1123,12 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.TextView;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
@@ -1147,6 +1149,7 @@ import com.example.diploma.view.ViewSoundNoteActivity;
 import com.example.diploma.view.ViewTextNoteActivity;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -1177,26 +1180,34 @@ public class HomeActivity extends AppCompatActivity {
         db = DatabaseHandler.getmInstance(getApplicationContext());
 
         SwipeMenuListView notesList = findViewById(R.id.notesList);
-        SwipeMenuListView pinNotesList = findViewById(R.id.pinNotesList);
+        final SwipeMenuListView pinNotesList = findViewById(R.id.pinNotesList);
 
-        Cursor cursorNotes = db.getNoteList(0);
-        Cursor cursorPinNotes = db.getNoteList(1);
+        Cursor cursorNotes = db.getReverseNoteList(0);
+        Cursor cursorPinNotes = db.getReverseNoteList(1);
         if (cursorNotes != null || cursorPinNotes != null) {
             noteCursorAdapter = new NoteCursorAdapter(getApplicationContext(), cursorNotes, 0);
             pinNoteCursorAdapter = new NoteCursorAdapter(getApplicationContext(), cursorPinNotes, 0);
             notesList.setAdapter(noteCursorAdapter);
             pinNotesList.setAdapter(pinNoteCursorAdapter);
         }
-        notes = db.getNoteArrayList(0);
-        pinNotes = db.getNoteArrayList(1);
 
+        //   Collections.reverse(notes);
+        notes = db.getReverseNoteArrayList(0);
+        pinNotes = db.getReverseNoteArrayList(1);
+
+        //  Collections.reverse(notes);
+        // Collections.reverse(pinNotes);
+
+//        notesList.get
 
 
         if (pinNotes.size() > 0) {
-            View line = findViewById(R.id.line);
-            line.setBackgroundResource(R.color.colorGrey);
+            // View line = findViewById(R.id.line);
+            //  line.setBackgroundResource(R.color.colorGrey);
+            setMargins(pinNotesList, 0, 0, 0, 30);
 
             TextView pinnedText = findViewById(R.id.tv_pinned);
+            pinnedText.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
             pinnedText.setVisibility(View.VISIBLE);
         }
 //        database = Room.databaseBuilder(getApplicationContext(),
@@ -1223,141 +1234,146 @@ public class HomeActivity extends AppCompatActivity {
         UpdateCountNotes();
 
 
-        ImageButton btnAddNote = findViewById(R.id.btnAddNote);
-
-        {
-            btnAddNote.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                    AlertDialog.Builder mBuilder = new AlertDialog.Builder(HomeActivity.this);
-                    final View mView = getLayoutInflater().inflate(R.layout.activity_add_note, null);
-                    mBuilder.setView(mView);
-                    final AlertDialog dialog = mBuilder.create();
+        Button btnAdd = (Button) findViewById(R.id.btnAddNote);
 
 
-                    Window window = dialog.getWindow();
-                    WindowManager.LayoutParams wlp = window.getAttributes();
+        btnAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-                    wlp.gravity = Gravity.CENTER;
-                    wlp.flags &= ~WindowManager.LayoutParams.FLAG_DIM_BEHIND;
-                    window.setAttributes(wlp);
-                    window.setBackgroundDrawableResource(android.R.color.transparent);
-                    ImageButton btnText = mView.findViewById(R.id.imgbtn_text);
-                    btnText.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Intent intent = new Intent(getApplicationContext(), TextNoteActivity.class);
-                            startActivityForResult(intent, 1);
-                            dialog.cancel();
-                        }
-                    });
-
-                    ImageButton btnPhoto = mView.findViewById(R.id.imgbtn_photo);
-                    btnPhoto.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Intent intent = new Intent(getApplicationContext(), PhotoNoteActivity.class);
-                            startActivityForResult(intent, 2);
-                            dialog.cancel();
-                        }
-                    });
-
-                    ImageButton btnList = mView.findViewById(R.id.imgbtn_list);
-                    btnList.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Intent intent = new Intent(getApplicationContext(), ListNoteActivity.class);
-                            startActivityForResult(intent, 3);
-                            dialog.cancel();
-                        }
-                    });
-
-                    ImageButton btnSound = mView.findViewById(R.id.imgbtn_sound);
-                    btnSound.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Intent intent = new Intent(getApplicationContext(), SoundNoteActivity.class);
-                            startActivityForResult(intent, 4);
-                            dialog.cancel();
-                        }
-                    });
-
-                    dialog.show();
-//
+                AlertDialog.Builder mBuilder = new AlertDialog.Builder(HomeActivity.this);
+                final View mView = getLayoutInflater().inflate(R.layout.activity_add_note, null);
+                mBuilder.setView(mView);
+                final AlertDialog dialog = mBuilder.create();
 
 
-                }
-            });
+                Window window = dialog.getWindow();
+                WindowManager.LayoutParams wlp = window.getAttributes();
+
+                wlp.gravity = Gravity.CENTER;
+                wlp.flags &= ~WindowManager.LayoutParams.FLAG_DIM_BEHIND;
+                window.setAttributes(wlp);
+                window.setBackgroundDrawableResource(android.R.color.transparent);
+                ImageButton btnText = mView.findViewById(R.id.imgbtn_text);
+                btnText.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(getApplicationContext(), TextNoteActivity.class);
+                        startActivityForResult(intent, 1);
+                        dialog.cancel();
+                    }
+                });
+
+                ImageButton btnPhoto = mView.findViewById(R.id.imgbtn_photo);
+                btnPhoto.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(getApplicationContext(), PhotoNoteActivity.class);
+                        startActivityForResult(intent, 2);
+                        dialog.cancel();
+                    }
+                });
+
+                ImageButton btnList = mView.findViewById(R.id.imgbtn_list);
+                btnList.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(getApplicationContext(), ListNoteActivity.class);
+                        startActivityForResult(intent, 3);
+                        dialog.cancel();
+                    }
+                });
+
+                ImageButton btnSound = mView.findViewById(R.id.imgbtn_sound);
+                btnSound.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(getApplicationContext(), SoundNoteActivity.class);
+                        startActivityForResult(intent, 4);
+                        dialog.cancel();
+                    }
+                });
+                dialog.show();
+            }
+        });
+
+
+
+    SwipeMenuCreator creator = new SwipeMenuCreator() {
+        @Override
+        public void create(SwipeMenu menu) {
+            SwipeMenuItem deleteItem = new SwipeMenuItem(getApplicationContext());
+            deleteItem.setBackground(new ColorDrawable(Color.rgb(0xFF, 0x00, 0x00)));
+            deleteItem.setWidth(150);
+            deleteItem.setIcon(R.mipmap.ic_delete);
+            menu.addMenuItem(deleteItem);
+
+            SwipeMenuItem pinItem = new SwipeMenuItem(getApplicationContext());
+            pinItem.setBackground(new ColorDrawable(Color.rgb(0x80, 0x80, 0x80)));
+            pinItem.setWidth(150);
+            pinItem.setIcon(R.mipmap.ic_pin);
+            menu.addMenuItem(pinItem);
         }
+    };
 
+    SwipeMenuCreator pinCreator = new SwipeMenuCreator() {
+        @Override
+        public void create(SwipeMenu menu) {
+            SwipeMenuItem deleteItem = new SwipeMenuItem(getApplicationContext());
+            deleteItem.setBackground(new ColorDrawable(Color.rgb(0xFF, 0x00, 0x00)));
+            deleteItem.setWidth(150);
+            deleteItem.setIcon(R.mipmap.ic_delete);
+            menu.addMenuItem(deleteItem);
 
-        SwipeMenuCreator creator = new SwipeMenuCreator() {
-            @Override
-            public void create(SwipeMenu menu) {
-                SwipeMenuItem deleteItem = new SwipeMenuItem(getApplicationContext());
-                deleteItem.setBackground(new ColorDrawable(Color.rgb(0xFF, 0x00, 0x00)));
-                deleteItem.setWidth(150);
-                deleteItem.setIcon(R.mipmap.ic_delete);
-                menu.addMenuItem(deleteItem);
-
-                SwipeMenuItem pinItem = new SwipeMenuItem(getApplicationContext());
-                pinItem.setBackground(new ColorDrawable(Color.rgb(0x80, 0x80, 0x80)));
-                pinItem.setWidth(150);
-                pinItem.setIcon(R.mipmap.ic_pin);
-                menu.addMenuItem(pinItem);
-            }
-        };
-
-        SwipeMenuCreator pinCreator = new SwipeMenuCreator() {
-            @Override
-            public void create(SwipeMenu menu) {
-                SwipeMenuItem deleteItem = new SwipeMenuItem(getApplicationContext());
-                deleteItem.setBackground(new ColorDrawable(Color.rgb(0xFF, 0x00, 0x00)));
-                deleteItem.setWidth(150);
-                deleteItem.setIcon(R.mipmap.ic_delete);
-                menu.addMenuItem(deleteItem);
-
-                SwipeMenuItem pinItem = new SwipeMenuItem(getApplicationContext());
-                pinItem.setBackground(new ColorDrawable(Color.rgb(0x80, 0x80, 0x80)));
-                pinItem.setWidth(150);
-                pinItem.setIcon(R.mipmap.ic_unpin);
-                menu.addMenuItem(pinItem);
-            }
-        };
+            SwipeMenuItem pinItem = new SwipeMenuItem(getApplicationContext());
+            pinItem.setBackground(new ColorDrawable(Color.rgb(0x80, 0x80, 0x80)));
+            pinItem.setWidth(150);
+            pinItem.setIcon(R.mipmap.ic_unpin);
+            menu.addMenuItem(pinItem);
+        }
+    };
 
 
         notesList.setMenuCreator(creator);
         pinNotesList.setMenuCreator(pinCreator);
 
-        pinNotesList.setOnMenuItemClickListener(new SwipeMenuListView.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(int position, SwipeMenu menu, int index) {
-                switch (index) {
-                    case 0: {
+        pinNotesList.setOnMenuItemClickListener(new SwipeMenuListView.OnMenuItemClickListener()
+
+    {
+        @Override
+        public boolean onMenuItemClick ( int position, SwipeMenu menu,int index){
+        switch (index) {
+            case 0: {
 //                        pinNoteAdapter.remove(pinNotes.get(position));
 //                        pinNoteAdapter.notifyDataSetChanged();
 //                        pinNotesList.setAdapter(pinNoteAdapter);
 //                        UpdateCountNotes();
-                        Note n = pinNotes.get(position);
+                Note n = pinNotes.get(position);
 
-                        db.deleteById(n.id);
-                        pinNotes.remove(position);
+                db.deleteById(n.id);
+                pinNotes.remove(position);
 
-                        pinNoteCursorAdapter.swapCursor(db.getNoteList(1));
-                        UpdateCountNotes();
-                        if (pinNotes.size() == 0) {
-                            View line = findViewById(R.id.line);
-                            line.setBackgroundResource(R.color.colorWhite);
+                pinNoteCursorAdapter.swapCursor(db.getReverseNoteList(1));
+                UpdateCountNotes();
+                if (pinNotes.size() == 0) {
+                    //View line = findViewById(R.id.line);
+                    // line.setBackgroundResource(R.color.colorWhite);
+                    setMargins(pinNotesList, 0, 0, 0, 30);
 
-                            TextView pinnedText = findViewById(R.id.tv_pinned);
-                            pinnedText.setVisibility(View.GONE);
-                        }
-                    }
-                        break;
+                    TextView pinnedText = findViewById(R.id.tv_pinned);
+                    pinnedText.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+                    pinnedText.setVisibility(View.GONE);
+                }
+
+                if (pinNotes.size() == 0 && notes.size() == 0) {
+                    setMargins(pinNotesList, 0, 0, 0, 30);
+                }
+
+            }
+            break;
 
 
-                    case 1:
+            case 1:
 //                        noteAdapter.add(pinNotes.get(position));
 //                        noteAdapter.notifyDataSetChanged();
 //                        notesList.setAdapter(noteAdapter);
@@ -1366,47 +1382,54 @@ public class HomeActivity extends AppCompatActivity {
 //                        pinNoteAdapter.notifyDataSetChanged();
 //                        pinNotesList.setAdapter(pinNoteAdapter);
 
-                        Note n=pinNotes.get(position);
+                Note n = pinNotes.get(position);
 //                        long id = pinNotes.get(position).id;
-                        db.updatePinStatus(n.id, 0);
-                        //pinNotes.remove();
+                db.updatePinStatus(n.id, 0);
+                //pinNotes.remove();
 
 //                        notes.add(n);
 //                        pinNotes.remove(position);
 
-                        notes = db.getNoteArrayList(0);
-                        pinNotes = db.getNoteArrayList(1);
+                notes = db.getReverseNoteArrayList(0);
+                pinNotes = db.getReverseNoteArrayList(1);
 
 
-                        if (pinNotes.size() == 0) {
-                            View line = findViewById(R.id.line);
-                            line.setBackgroundResource(R.color.colorWhite);
+//                        Collections.reverse(notes);
+//                        Collections.reverse(pinNotes);
 
-                            TextView pinnedText = findViewById(R.id.tv_pinned);
-                            pinnedText.setVisibility(View.GONE);
-                        }
-                        noteCursorAdapter.swapCursor(db.getNoteList(0));
-                        pinNoteCursorAdapter.swapCursor(db.getNoteList(1));
-                        break;
+                if (pinNotes.size() == 0) {
+                    //   View line = findViewById(R.id.line);
+                    //  line.setBackgroundResource(R.color.colorWhite);
+                    setMargins(pinNotesList, 0, 0, 0, 0);
+
+                    TextView pinnedText = findViewById(R.id.tv_pinned);
+
+                    pinnedText.setVisibility(View.GONE);
                 }
-                return false;
+                noteCursorAdapter.swapCursor(db.getReverseNoteList(0));
+                pinNoteCursorAdapter.swapCursor(db.getReverseNoteList(1));
+                break;
+        }
+        return false;
+    }
+    });
+        notesList.setOnMenuItemClickListener(new SwipeMenuListView.OnMenuItemClickListener()
+
+    {
+        @Override
+        public boolean onMenuItemClick ( int position, SwipeMenu menu,int index){
+        switch (index) {
+            case 0: {
+                Note n = notes.get(position);
+
+                db.deleteById(n.id);
+                notes.remove(position);
+
+                noteCursorAdapter.swapCursor(db.getReverseNoteList(0));
+                UpdateCountNotes();
             }
-        });
-        notesList.setOnMenuItemClickListener(new SwipeMenuListView.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(int position, SwipeMenu menu, int index) {
-                switch (index) {
-                    case 0: {
-                        Note n = notes.get(position);
-
-                        db.deleteById(n.id);
-                        notes.remove(position);
-
-                        noteCursorAdapter.swapCursor(db.getNoteList(0));
-                        UpdateCountNotes();
-                    }
-                        break;
-                    case 1:
+            break;
+            case 1:
 //                        if (pinNotes.size() == 0) {
 //                            View line = findViewById(R.id.line);
 //                            line.setBackgroundResource(R.color.colorGrey);
@@ -1426,61 +1449,79 @@ public class HomeActivity extends AppCompatActivity {
 //                            notesList.setAdapter(noteAdapter);
 //                        }
 //
-                        if (pinNotes.size() == 0) {
-                            View line = findViewById(R.id.line);
-                            line.setBackgroundResource(R.color.colorGrey);
+                if (pinNotes.size() == 0) {
+                    //   View line = findViewById(R.id.line);
+                    //    line.setBackgroundResource(R.color.colorGrey);
+                    setMargins(pinNotesList, 0, 0, 0, 30);
 
-                            TextView pinnedText = findViewById(R.id.tv_pinned);
-                            pinnedText.setVisibility(View.VISIBLE);
-                        }
-                        if (pinNotes.size() == 3)
-                            Toast.makeText(getApplicationContext(), "You can not pin no more", Toast.LENGTH_LONG).show();
-                        else {
-                            Note n=notes.get(position);
-                            db.updatePinStatus(n.id, 1);
+                    TextView pinnedText = findViewById(R.id.tv_pinned);
+                    pinnedText.setVisibility(View.VISIBLE);
+                }
+                if (pinNotes.size() == 3)
+                    Toast.makeText(getApplicationContext(), "You can not pin no more", Toast.LENGTH_LONG).show();
+                else {
+                    Note n = notes.get(position);
+                    db.updatePinStatus(n.id, 1);
 
 //                            pinNotes.add(n);
 //                            notes.remove(position);
 
-                            notes = db.getNoteArrayList(0);
-                            pinNotes = db.getNoteArrayList(1);
+                    notes = db.getReverseNoteArrayList(0);
+                    pinNotes = db.getReverseNoteArrayList(1);
 
-                            noteCursorAdapter.swapCursor(db.getNoteList(0));
-                            pinNoteCursorAdapter.swapCursor(db.getNoteList(1));
+                    // Collections.reverse(notes);
+                    // Collections.reverse(pinNotes);
 
-                            //    pinNotes.add(notes.get(position));
-                            //pinNoteAdapter.notifyDataSetChanged();
-                            //pinNotesList.setAdapter(pinNoteAdapter);
-                            //  notes.remove(notes.get(position));
+                    noteCursorAdapter.swapCursor(db.getReverseNoteList(0));
+                    pinNoteCursorAdapter.swapCursor(db.getReverseNoteList(1));
+
+                    //    pinNotes.add(notes.get(position));
+                    //pinNoteAdapter.notifyDataSetChanged();
+                    //pinNotesList.setAdapter(pinNoteAdapter);
+                    //  notes.remove(notes.get(position));
 
 //                            noteAdapter.remove(notes.get(position));
 //                            noteAdapter.notifyDataSetChanged();
 //                            notesList.setAdapter(noteAdapter);
-                        }
-                        break;
                 }
-                return false;
-            }
-        });
-
-
-        notesList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Note noteToEdit = notes.get(position);
-                OpenNewNote(position, view, noteToEdit);
-            }
-        });
-
-        pinNotesList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Note noteToEdit = pinNotes.get(position);
-                OpenNewNote(position, view, noteToEdit);
-            }
-        });
-
+                break;
+        }
+        return false;
     }
+    });
+
+
+        notesList.setOnItemClickListener(new AdapterView.OnItemClickListener()
+
+    {
+        @Override
+        public void onItemClick (AdapterView < ? > parent, View view,int position, long id){
+        Note noteToEdit = notes.get(position);
+        OpenNewNote(position, view, noteToEdit);
+    }
+    });
+
+        pinNotesList.setOnItemClickListener(new AdapterView.OnItemClickListener()
+
+    {
+        @Override
+        public void onItemClick (AdapterView < ? > parent, View view,int position, long id){
+        Note noteToEdit = pinNotes.get(position);
+        OpenNewNote(position, view, noteToEdit);
+    }
+    });
+
+}
+
+
+    public static void setMargins(View v, int l, int t, int r, int b) {
+        if (v.getLayoutParams() instanceof ViewGroup.MarginLayoutParams) {
+            ViewGroup.MarginLayoutParams p = (ViewGroup.MarginLayoutParams) v.getLayoutParams();
+            p.setMargins(l, t, r, b);
+            v.requestLayout();
+        }
+    }
+
 
     private void OpenNewNote(int position, View view, Note noteToEdit) {
         Intent intent = null;
@@ -1517,7 +1558,18 @@ public class HomeActivity extends AppCompatActivity {
     private void UpdateCountNotes() {
         TextView countNotes = findViewById(R.id.countNotes);
         int allCount = db.getNotelistCount();// + pinNotes.size();
-        countNotes.setText("Count: " + allCount);
+
+        switch (allCount) {
+            case 0:
+                countNotes.setText("no notes");
+                break;
+            case 1:
+                countNotes.setText("1 note");
+                break;
+            default:
+                countNotes.setText(" " + allCount + " notes");
+        }
+
     }
 
 
@@ -1560,7 +1612,7 @@ public class HomeActivity extends AppCompatActivity {
             db.updateNoteById(note.id, title, path, note.type, changeDate, password);
             int position = data.getIntExtra("position", 0);
             notes.remove(notes.get(position));
-            notes.add(position, note);
+            notes.add(0, note);
 //            noteDAO.update(note);
 //            int position = data.getIntExtra("position", 0);
 //
@@ -1571,7 +1623,7 @@ public class HomeActivity extends AppCompatActivity {
 
             long id = db.insertIntoNote(title, path, note.type, changeDate, password);
             note.id = id;
-            notes.add(note);
+            notes.add(0, note);
 //            noteDAO.insertByFields(title, path, note.type, changeDate, password);
 ////                    noteDAO.insert(note);
 ////                    ((List<Note>)noteDAO.getAll()).indexOf(note);
@@ -1583,8 +1635,8 @@ public class HomeActivity extends AppCompatActivity {
         // notesList.
         //   noteAdapter.notifyDataSetChanged();
 //        notesList.setAdapter(noteAdapter);
-        noteCursorAdapter.swapCursor(db.getNoteList(0));
-        pinNoteCursorAdapter.swapCursor(db.getNoteList(1));
+        noteCursorAdapter.swapCursor(db.getReverseNoteList(0));
+        pinNoteCursorAdapter.swapCursor(db.getReverseNoteList(1));
         UpdateCountNotes();
 
     }

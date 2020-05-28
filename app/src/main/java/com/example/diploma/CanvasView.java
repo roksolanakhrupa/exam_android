@@ -187,7 +187,7 @@ public class CanvasView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        canvas.drawBitmap(mBitmap, 0, 0, null);
+
         if (backgroundImage != null) {
 
             DrawScaledBitmap(canvas);
@@ -212,6 +212,8 @@ public class CanvasView extends View {
 //            mCanvas.drawBitmap(resizedBitmap, marginLeft, marginTop, null);
 
         }
+
+        canvas.drawBitmap(mBitmap, 0, 0, null);
 
         for (int i = 0; i < paths.size(); i++) {
             canvas.drawPath(paths.get(i), paints.get(i));

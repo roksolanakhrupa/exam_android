@@ -1,9 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="colorDarkBlue">#426e90</color>
     <color name="colorPurple">#6E2594</color>
     <color name="colorYellow">#ECD444</color>
-    <color name="colorGrey">#808080</color>
+    <color name="colorGrey">#707070</color>
+    <color name="colorLightGrey">#999999</color>
+    <color name="colorLightLightGrey">#c4c2c2</color>
     <color name="colorBlack">#000000</color>
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorRed">#FF0000</color>
+    <color name="colorLightBlue">#c5e3f5</color>
+    <color name="colorBlue">#80aacb</color>
+
+
+
 </resources>

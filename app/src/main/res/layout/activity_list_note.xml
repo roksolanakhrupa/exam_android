@@ -22,26 +22,39 @@
             android:background="@null"
             android:hint="title"
             android:textSize="35dp"
-            android:textStyle="bold" />
-
+            android:textStyle="bold"
+            android:textColor="@color/colorBlack"/>
+        <ImageButton
+            android:id="@+id/list_add_item"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:scaleType="fitXY"
+            android:src="@mipmap/ic_additem"
+            android:background="@null"
+            />
         <ImageButton
             android:id="@+id/list_btnSaveNote"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:scaleType="fitXY"
             android:background="@null"
             android:src="@mipmap/ic_savenote" />
     </LinearLayout>
 
-    <Button
-        android:id="@+id/list_add_item"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="add item" />
+<!--    <Button-->
+<!--        android:id="@+id/list_add_item"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="add item"-->
+<!--        style="@style/Widget.AppCompat.Button.Colored"-->
+<!--        android:background="@drawable/btn_rounded_light"/>-->
+
+
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_weight="1">
 
         <LinearLayout
             android:id="@+id/list_layout"
@@ -68,11 +81,28 @@
         </LinearLayout>
     </ScrollView>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center">
     <Button
         android:id="@+id/btnPassword"
+        android:layout_weight="1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:background="@drawable/btn_rounded"
         android:text="Password" />
+
+<!--        <ImageButton-->
+<!--            android:id="@+id/btnPassword"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:src="@mipmap/ic_password"-->
+<!--            android:background="@null"/>-->
+
+    </LinearLayout>
 
 </LinearLayout>

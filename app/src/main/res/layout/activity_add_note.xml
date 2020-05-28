@@ -10,24 +10,24 @@
         android:layout_height="75dp"
         android:id="@+id/imgbtn_text"
         android:layout_gravity="center_horizontal"
-        android:background="@mipmap/ic_textnote" />
+        android:background="@mipmap/ic_notetext" />
     <ImageButton
         android:layout_width="75dp"
         android:layout_height="75dp"
         android:id="@+id/imgbtn_photo"
         android:layout_gravity="center_horizontal"
-        android:background="@mipmap/ic_photonote" />
+        android:background="@mipmap/ic_notephoto" />
     <ImageButton
         android:layout_width="75dp"
         android:layout_height="75dp"
         android:id="@+id/imgbtn_list"
         android:layout_gravity="center_horizontal"
-        android:background="@mipmap/ic_listnote" />
+        android:background="@mipmap/ic_notelist" />
     <ImageButton
         android:layout_width="75dp"
         android:layout_height="75dp"
         android:id="@+id/imgbtn_sound"
         android:layout_gravity="center_horizontal"
-        android:background="@mipmap/ic_soundnote" />
+        android:background="@mipmap/ic_notesound" />
 
 </LinearLayout>

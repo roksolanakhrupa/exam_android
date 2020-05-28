@@ -3,6 +3,7 @@ package com.example.diploma.database;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,16 +37,19 @@ int id=cursor.getInt(0);
 
 
         //Note note = notes.get(position);
-        title.setText(returnTitle+", "+id);
+        //title.setText(returnTitle+", "+id);
+        title.setText(returnTitle);
+
+        changeDate.setTypeface(null, Typeface.ITALIC);
         changeDate.setText(returnChangeDate);
         if (returnType.equals("text"))
-            type.setBackgroundResource(R.mipmap.ic_textnote);
+            type.setBackgroundResource(R.mipmap.ic_notetext);
         if (returnType.equals("photo"))
-            type.setBackgroundResource(R.mipmap.ic_photonote);
+            type.setBackgroundResource(R.mipmap.ic_notephoto);
         if (returnType.equals("list"))
-            type.setBackgroundResource(R.mipmap.ic_listnote);
+            type.setBackgroundResource(R.mipmap.ic_notelist);
         if (returnType.equals("sound"))
-            type.setBackgroundResource(R.mipmap.ic_soundnote);
+            type.setBackgroundResource(R.mipmap.ic_notesound);
 
     }
 

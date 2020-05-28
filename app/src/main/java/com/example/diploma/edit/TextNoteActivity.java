@@ -3,6 +3,7 @@ package com.example.diploma.edit;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
@@ -191,7 +192,9 @@ public class TextNoteActivity extends AppCompatActivity {
 
     private void showPasswordMenu(View v) {
         PopupMenu popupMenu = new PopupMenu(this, v);
-        popupMenu.inflate(R.menu.password_menu);
+       // popupMenu.inflate(R.menu.password_menu, );
+
+        popupMenu.getMenuInflater().inflate(R.menu.password_menu, popupMenu.getMenu());
 
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
@@ -317,6 +320,26 @@ public class TextNoteActivity extends AppCompatActivity {
             }
         });
         popupMenu.show();
+
+
+//        LayoutInflater layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+//        final View popupView = layoutInflater.inflate(R.layout.popup, null);
+//
+//        popupWindow = new PopupWindow(
+//                popupView,
+//                ViewGroup.LayoutParams.WRAP_CONTENT,
+//                ViewGroup.LayoutParams.WRAP_CONTENT);
+//
+//        popupWindow.setBackgroundDrawable(new BitmapDrawable());
+//        popupWindow.setOutsideTouchable(true);
+//        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+//            @Override
+//            public void onDismiss() {
+//                //TODO do sth here on dismiss
+//            }
+//        });
+//
+//        popupWindow.showAsDropDown(v);
     }
 
     private String createFile(String data) {

@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".HomeActivity">
+    tools:context=".HomeActivity"
+    android:padding="10dp">
 
 
     <LinearLayout
@@ -28,40 +29,25 @@
         <com.baoyz.swipemenulistview.SwipeMenuListView
             android:id="@+id/pinNotesList"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:divider="@null"/>
     </LinearLayout>
 
-    <View
-        android:id="@+id/line"
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="@android:color/white" />
 
-<!--    <androidx.recyclerview.widget.RecyclerView-->
-<!--        android:id="@+id/notesList"-->
-<!--        android:scrollbars="vertical"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_weight="1"/>-->
 
     <com.baoyz.swipemenulistview.SwipeMenuListView
         android:id="@+id/notesList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1" />
+        android:layout_weight="1"
+        android:divider="@null"/>
 
-<!--    <ListView-->
-<!--        android:id="@+id/notesList"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_weight="1" />-->
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingHorizontal="10dp"
-        android:paddingVertical="10dp">
+        android:orientation="vertical"
+        android:paddingVertical="5dp">
 
         <TextView
             android:id="@+id/countNotes"
@@ -72,19 +58,29 @@
             android:layout_weight="1"
             android:fontFamily="sans-serif-condensed-medium"
             android:gravity="center"
-            android:text="Count" />
+            android:text="Count"
+            android:paddingBottom="12dp"/>
 
-        <ImageButton
+        <Button
             android:id="@+id/btnAddNote"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@null"
-            android:src="@mipmap/ic_addelement"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:textSize="20dp"
+            android:background="@drawable/btn_rounded"
+            android:text="Add note"
+
+            />
     </LinearLayout>
+
+
+<!--    android:scaleType="fitXY"-->
+    <!--            android:src="@mipmap/ic_addnote"-->
+    <!--            android:background="@null"-->
+<!--    app:layout_constraintBottom_toBottomOf="parent"-->
+<!--    app:layout_constraintLeft_toLeftOf="parent"-->
+<!--    app:layout_constraintRight_toRightOf="parent"-->
+<!--    app:layout_constraintTop_toTopOf="parent"-->
 
 
 </LinearLayout>
