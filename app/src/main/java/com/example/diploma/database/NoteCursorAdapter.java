@@ -27,12 +27,14 @@ public class NoteCursorAdapter extends CursorAdapter {
         TextView title = (TextView) view.findViewById(R.id.item_title);
         TextView changeDate = (TextView) view.findViewById(R.id.item_changeDate);
         ImageView type = view.findViewById(R.id.item_type);
+        ImageView password = view.findViewById(R.id.item_password);
 
 int id=cursor.getInt(0);
 //        String returnID = cursor.getString(cursor.getColumnIndex("ID"));
         String returnTitle = cursor.getString(cursor.getColumnIndex("title"));
         String returnType = cursor.getString(cursor.getColumnIndex("type"));
         String returnChangeDate = cursor.getString(cursor.getColumnIndex("changeDate"));
+        String returnPassword = cursor.getString(cursor.getColumnIndex("password"));
 
 
 
@@ -51,6 +53,11 @@ int id=cursor.getInt(0);
         if (returnType.equals("sound"))
             type.setBackgroundResource(R.mipmap.ic_notesound);
 
+
+        if(!returnPassword.equals(""))
+            password.setBackgroundResource(R.mipmap.ic_password);
+        else
+            password.setVisibility(View.INVISIBLE);
     }
 
     @Override

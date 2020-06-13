@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="20dp"
+    android:padding="30dp"
     tools:context=".view.ViewSoundNoteActivity">
 
 
@@ -21,18 +21,19 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="18dp"
             android:layout_weight="1"
-            android:background="@null"
+            android:textColor="@color/colorBlack"
             android:hint="title"
             android:textSize="35dp"
             android:textStyle="bold" />
 
         <ImageButton
             android:id="@+id/btnEdit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:scaleType="fitXY"
 
             android:background="@null"
-            android:src="@mipmap/ic_edit" />
+            android:src="@mipmap/ic_editnote" />
     </LinearLayout>
 
 
@@ -41,6 +42,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="40dp"
+        android:textColor="@color/colorBlack"
         android:text="Play"></TextView>
 
     <LinearLayout
@@ -53,18 +55,24 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="playStart"
+            android:layout_margin="3dp"
+            android:background="@drawable/btn_sound"
             android:text="Start"></Button>
         <Button
             android:id="@+id/play_pause"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="playPause"
+            android:layout_margin="3dp"
+            android:background="@drawable/btn_sound"
             android:text="Pause"></Button>
         <Button
             android:id="@+id/play_stop"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="playStop"
+            android:layout_margin="3dp"
+            android:background="@drawable/btn_sound"
             android:text="Stop"></Button>
     </LinearLayout>
 
@@ -84,12 +92,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 android:layout_weight="1"
+            android:textColor="@color/colorBlack"
             android:text="00:00" />
 
         <TextView
             android:id="@+id/all_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/colorBlack"
             android:text="00:00" />
     </LinearLayout>
 

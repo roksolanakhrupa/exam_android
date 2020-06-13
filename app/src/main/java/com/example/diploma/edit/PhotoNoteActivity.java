@@ -318,12 +318,9 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.provider.CalendarContract;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Gravity;
@@ -341,8 +338,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.diploma.CanvasView;
-import com.example.diploma.HomeActivity;
+import com.example.diploma.view.CanvasView;
 import com.example.diploma.R;
 
 import java.io.File;
@@ -376,8 +372,7 @@ public class PhotoNoteActivity extends AppCompatActivity {
 
 
         Bundle extras = getIntent().getExtras();
-        if (extras == null) {
-            Toast.makeText(getApplicationContext(), "empty", Toast.LENGTH_SHORT).show();
+        if (extras == null){
             customCanvas = (CanvasView) findViewById(R.id.canvas);
         } else {
 
@@ -414,8 +409,7 @@ public class PhotoNoteActivity extends AppCompatActivity {
 
 
             } catch (Exception e) {
-                //e.printStackTrace();
-//                Toast.makeText(getApplicationContext(), e.printStackTrace(), Toast.LENGTH_LONG).show();
+                e.printStackTrace();
                 Log.d("info", e.getMessage());
             }
 
@@ -449,87 +443,70 @@ public class PhotoNoteActivity extends AppCompatActivity {
         });
 //
 
+        {
+            final ImageButton pen_red = findViewById(R.id.pen_red);
+            final ImageButton pen_black = findViewById(R.id.pen_black);
+            final ImageButton pen_white = findViewById(R.id.pen_white);
+            final ImageButton pen_blue = findViewById(R.id.pen_blue);
+            final ImageButton pen_grey = findViewById(R.id.pen_grey);
+            final ImageButton[] prev = {pen_black};
+            final int[] colorNum = {R.color.colorBlack};
+            pen_black.setBackgroundResource(R.drawable.selector_black);
 
-        final ImageButton pen_red = findViewById(R.id.pen_red);
-        final ImageButton pen_black = findViewById(R.id.pen_black);
-        final ImageButton pen_white = findViewById(R.id.pen_white);
-//        final ImageButton pen_green = findViewById(R.id.pen_green);
-        final ImageButton pen_blue = findViewById(R.id.pen_blue);
-        final ImageButton pen_grey = findViewById(R.id.pen_grey);
-        final ImageButton[] prev = {pen_black};
-        final int[] colorNum = {R.color.colorBlack};
-        pen_black.setBackgroundResource(R.drawable.selector_black);
+            pen_red.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    customCanvas.changeColor(Color.RED);
+                    prev[0].setBackgroundResource(colorNum[0]);
+                    pen_red.setBackgroundResource(R.drawable.selector_red);
+                    colorNum[0] = R.color.colorRed;
+                    prev[0] = pen_red;
 
-        pen_red.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                customCanvas.changeColor(Color.RED);
-                prev[0].setBackgroundResource(colorNum[0]);
-                pen_red.setBackgroundResource(R.drawable.selector_red);
-                colorNum[0] =R.color.colorRed;
-                prev[0] = pen_red;
+                }
+            });
+            pen_black.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    customCanvas.changeColor(Color.BLACK);
 
-            }
-        });
-        pen_black.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) { customCanvas.changeColor(Color.BLACK);
+                    prev[0].setBackgroundResource(colorNum[0]);
+                    pen_black.setBackgroundResource(R.drawable.selector_black);
+                    colorNum[0] = R.color.colorBlack;
+                    prev[0] = pen_black;
 
-                prev[0].setBackgroundResource(colorNum[0]);
-                pen_black.setBackgroundResource(R.drawable.selector_black);
-                colorNum[0] =R.color.colorBlack;
-                prev[0] = pen_black;
-
-            }
-        });
-        pen_white.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) { customCanvas.changeColor(Color.WHITE);
-                prev[0].setBackgroundResource(colorNum[0]);
-                pen_white.setBackgroundResource(R.drawable.selector_white);
-                colorNum[0] =R.drawable.button_border;
-                prev[0] = pen_white;
-            }
-        });
-        pen_grey.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) { customCanvas.changeColor(Color.GRAY);
-                prev[0].setBackgroundResource(colorNum[0]);
-                pen_grey.setBackgroundResource(R.drawable.selector_grey);
-                colorNum[0] =R.color.colorGrey;
-                prev[0] = pen_grey;
-            }
-        });
-        pen_blue.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) { customCanvas.changeColor(Color.BLUE);
-                prev[0].setBackgroundResource(colorNum[0]);
-                pen_blue.setBackgroundResource(R.drawable.selector_blue);
-                colorNum[0] =R.color.colorBlue;
-                prev[0] = pen_blue;
-            }
-        });
-
-//        ImageButton btn_addGalleryPhoto = findViewById(R.id.btn_addGalleryPhoto);
-//        btn_addGalleryPhoto.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent();
-//                intent.setType("image/*");
-//                intent.setAction(Intent.ACTION_GET_CONTENT);
-//                startActivityForResult(Intent.createChooser(intent, "Pick an image"), FROM_GALLERY);
-//            }
-//        });
-//
-//
-//        ImageButton btn_addCameraPhoto = findViewById(R.id.btn_addCameraPhoto);
-//        btn_addCameraPhoto.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-//                startActivityForResult(cameraIntent, FROM_CAMERA);
-//            }
-//        });
+                }
+            });
+            pen_white.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    customCanvas.changeColor(Color.WHITE);
+                    prev[0].setBackgroundResource(colorNum[0]);
+                    pen_white.setBackgroundResource(R.drawable.selector_white);
+                    colorNum[0] = R.drawable.button_border;
+                    prev[0] = pen_white;
+                }
+            });
+            pen_grey.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    customCanvas.changeColor(Color.GRAY);
+                    prev[0].setBackgroundResource(colorNum[0]);
+                    pen_grey.setBackgroundResource(R.drawable.selector_grey);
+                    colorNum[0] = R.color.colorGrey;
+                    prev[0] = pen_grey;
+                }
+            });
+            pen_blue.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    customCanvas.changeColor(Color.BLUE);
+                    prev[0].setBackgroundResource(colorNum[0]);
+                    pen_blue.setBackgroundResource(R.drawable.selector_blue);
+                    colorNum[0] = R.color.colorBlue;
+                    prev[0] = pen_blue;
+                }
+            });
+        }
 
         ImageButton btnAddPhoto=findViewById(R.id.btn_add_photo);
         btnAddPhoto.setOnClickListener(new View.OnClickListener() {
@@ -602,16 +579,6 @@ public class PhotoNoteActivity extends AppCompatActivity {
             }
         });
 
-//
-//        Button clear = findViewById(R.id.clear);
-//        clear.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                customCanvas.setBackgroundImage(null);
-//                customCanvas.clearBitmap();
-//                customCanvas.clearCanvas();
-//            }
-//        });
 
     }
 

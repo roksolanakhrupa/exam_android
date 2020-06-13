@@ -14,7 +14,7 @@
         android:roundIcon="@mipmap/ic_notelogo_circle"
         android:supportsRtl="true"
         android:theme="@style/NoActionBar">
-        <activity android:name=".AddNoteActivity"></activity>
+
 
         <activity
             android:name=".view.ViewSoundNoteActivity"

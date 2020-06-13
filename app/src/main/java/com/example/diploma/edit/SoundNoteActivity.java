@@ -62,7 +62,7 @@ public class SoundNoteActivity extends AppCompatActivity {
 
     long MillisecondTime, StartTime, TimeBuff, UpdateTime = 0L;
     Handler handler;
-    int Seconds, Minutes, MilliSeconds;
+    int Seconds, Minutes, MilliSeconds=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,11 +89,8 @@ public class SoundNoteActivity extends AppCompatActivity {
             et_title.setText(title);
 
 
-
-
-            if(mediaPlayer==null)
-            {
-                mediaPlayer=new MediaPlayer();
+            if (mediaPlayer == null) {
+                mediaPlayer = new MediaPlayer();
                 try {
                     mediaPlayer.setDataSource(path);
                     mediaPlayer.prepare();
@@ -125,7 +122,6 @@ public class SoundNoteActivity extends AppCompatActivity {
 
         record_time = findViewById(R.id.record_time);
         play_current_time = findViewById(R.id.current_time);
-
 
 
         handler = new Handler();
@@ -200,9 +196,9 @@ public class SoundNoteActivity extends AppCompatActivity {
                 else
                     mediaPlayer.seekTo(0);
 
-               // mediaPlayer.start();
+                // mediaPlayer.start();
                 playStart(seekBar);
-               // MyTimer();
+                // MyTimer();
             }
         });
 
@@ -361,8 +357,6 @@ public class SoundNoteActivity extends AppCompatActivity {
 
     public void recordStart(View v) {
         try {
-            //releaseRecorder();
-
             File outFile = new File(path);
             if (outFile.exists()) {
                 outFile.delete();
@@ -383,11 +377,8 @@ public class SoundNoteActivity extends AppCompatActivity {
                 mediaRecorder.resume();
             }
 
-
             StartTime = SystemClock.uptimeMillis();
             handler.postDelayed(runnable, 0);
-
-
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -455,11 +446,12 @@ public class SoundNoteActivity extends AppCompatActivity {
 
 
     private void MyTimer() {
-        int duration = (mediaPlayer.getDuration() - (passedSec * 1000)+1000);
+        int duration = (mediaPlayer.getDuration() - (passedSec * 1000) +1000);
         play_timer = new CountDownTimer(duration, 1000) {
 
             public void onTick(long millisUntilFinished) {
-                if (passedSec != 0) {
+                if (passedSec != 0)
+                {
                     play_duration.setProgress(play_duration.getProgress() + 1);
                     int tmpCntMin = play_duration.getProgress() / 60;
                     int tmpCntSec = play_duration.getProgress() % 60;
@@ -494,7 +486,7 @@ public class SoundNoteActivity extends AppCompatActivity {
                 play_stop.setEnabled(true);
                 play_pause.setEnabled(true);
                 play_start.setEnabled(false);
-                SetAllTime(mediaPlayer.getDuration());
+              //  SetAllTime(mediaPlayer.getDuration());
                 MyTimer();
 
 

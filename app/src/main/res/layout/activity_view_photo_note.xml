@@ -20,18 +20,19 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/view_photo_title"
-            android:text="Title"
+            android:textColor="@color/colorBlack"
             android:textSize="35dp"
             android:layout_weight="1"
             android:textStyle="bold"
             android:layout_marginBottom="20dp"/>
         <ImageButton
             android:id="@+id/view_photo_btnEdit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:scaleType="fitXY"
 
             android:background="@null"
-            android:src="@mipmap/ic_edit" />
+            android:src="@mipmap/ic_editnote" />
     </LinearLayout>
 
     <ImageView

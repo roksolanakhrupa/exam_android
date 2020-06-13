@@ -12,7 +12,9 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/et_check_pass"/>
+        android:id="@+id/et_check_pass"
+        android:inputType="textPassword"
+        />
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

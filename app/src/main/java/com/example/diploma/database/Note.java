@@ -75,7 +75,7 @@
 //}
 
 
-package com.example.diploma;
+package com.example.diploma.database;
 
 import androidx.room.Entity;
 import androidx.room.Ignore;
