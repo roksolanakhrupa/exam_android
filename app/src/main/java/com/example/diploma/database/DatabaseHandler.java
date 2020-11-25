@@ -31,7 +31,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     @Override
     public  void onCreate(SQLiteDatabase db){
         db.execSQL(CreateTable_Notes);
-      //  db.execSQL(CreateTable_PinNotes);
     }
     @Override
     public  void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion){
@@ -111,16 +110,10 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     public Cursor getReverseNoteList(int pinStatus)
     {
-//        SQLiteDatabase db = this.getWritableDatabase();
-//        String[] columns = { MyDatabaseHelper.TEST_DATE, MyDatabaseHelper.SCORE };
-//        String orderBy = "id" + " DESC"; // This line reverses the order
-//        Cursor cursor = db.query(MyDatabaseHelper.TESTS_TABLE_NAME, columns,
-//                null, null, null, null, orderBy, null);
         SQLiteDatabase db   = this.getWritableDatabase();
         String query = "Select * from Notes where isPin = "+pinStatus + " order by _id desc";
         Cursor cursor = db.rawQuery(query, null );
         return  cursor;
-
     }
 
 
@@ -144,7 +137,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             int changeDateColumn = cursor.getColumnIndex("changeDate");
             int passwordColumn = cursor.getColumnIndex("password");
 
-            //add row to list
             do {
                 int thisId = cursor.getInt(idColumn);
                 String thisTitle = cursor.getString(titleColumn);
@@ -179,7 +171,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             int changeDateColumn = cursor.getColumnIndex("changeDate");
             int passwordColumn = cursor.getColumnIndex("password");
 
-            //add row to list
             do {
                 int thisId = cursor.getInt(idColumn);
                 String thisTitle = cursor.getString(titleColumn);
@@ -187,7 +178,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 String thisType = cursor.getString(typeColumn);
                 String thisChangeDate = cursor.getString(changeDateColumn);
                 String thisPassword = cursor.getString(passwordColumn);
-//                if (thisAlarm + thisNoti + thisRing==0)
                 notes.add(new Note(thisId, thisTitle, thisPath, thisType, thisChangeDate, thisPassword));
             }
             while (cursor.moveToPrevious());

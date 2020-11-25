@@ -20,20 +20,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-//        TextView tv = findViewById(R.id.textView);
-//        tv.bringToFront();
-
-//        Timer t=new Timer();
-//        t.schedule(new TimerTask() {
-//            @Override
-//            public void run() {
-//                Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
-//                startActivity(intent);
-//                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-//            }
-//        }, 2000);
-
-
         final android.os.Handler handler = new android.os.Handler();
         handler.postDelayed(new Runnable() {
             @Override
@@ -43,16 +29,7 @@ public class MainActivity extends AppCompatActivity {
                 overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
             }
         }, 1000);
-//        Button btnStart = findViewById(R.id.btnStart);
-//
-//        btnStart.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(v.getContext(), HomeActivity.class);
-//
-//                startActivity(intent);
-//            }
-//        });
+
 
     }
 
@@ -60,4 +37,3 @@ public class MainActivity extends AppCompatActivity {
 }
 
 
-// Ctrl Alt L
